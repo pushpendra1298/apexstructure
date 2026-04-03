@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}
+
+.animate-[pulse_8s_infinite] {
+  animation: pulse 8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.95; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.03); }
+}
+
