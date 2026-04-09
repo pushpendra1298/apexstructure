@@ -45,6 +45,5 @@ export default function Hero3D() {
       if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)
     }
   }, [])
-
-  return <div ref={ref} className="h-[420px] w-full rounded-[32px]" />
+  return <div ref={ref} className="h-[480px] w-[120%] rounded-[32px]" />
 }

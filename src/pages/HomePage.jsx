@@ -1,37 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import {
-  AnimatePresence,
-  animate,
-  motion,
-  useInView,
-  useMotionValue,
-} from 'framer-motion'
-import {
-  Building2,
-  Calendar,
-  CheckCircle2,
-  Mail,
-  Phone,
-  Users,
-  ArrowRight,
-} from 'lucide-react'
+import { AnimatePresence, animate, motion, useInView, useMotionValue } from 'framer-motion'
+import { Building2, Calendar, CheckCircle2, Users, ArrowRight, ChevronDown } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import SectionsPage from '../SectionsPage'
 import Footer from '../Footer'
 
-/* ─────────────────────────────────────────
-   DATA
-───────────────────────────────────────── */
-const sections = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'services', label: 'Services' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'process', label: 'Process' },
-  { id: 'testimonials', label: 'Testimonials' },
-  { id: 'contact', label: 'Contact' },
-]
-
+/* ── DATA ── */
 const irttSlides = [
   { tag: 'Assessment', title: 'Risk Profiling & Capacity Evaluation', description: 'Immediate visibility into permit, design, and cost risks for zone-wide portfolios.', image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=80' },
   { tag: 'Planning', title: 'Schedule Integration with IRTT', description: 'Auto-trigger policy updates and cross-team status from multi-vendor handoffs.', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80' },
@@ -41,23 +15,29 @@ const irttSlides = [
   { tag: 'Improvement', title: 'Performance Lifecycle Reviews', description: 'Post-project IRTT analytics for continuous improvement and client retention.', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80' },
 ]
 
-const slideVariants = {
-  initial: { opacity: 0, scale: 0.97 },
-  animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 1.06 },
-}
+const clients = [
+  'SCIENTIST ARCHITECTS',
+  'HOUSE OF MODERN LIVING',
+  'URBAN PLUS ARCHITECTS',
+  'DESIGN CAMPUS',
+  'ARCKOHM',
+  'SPACE ARCHITECTURE',
+  'ARC TEST HOUSE & CONSULTANT LLP',
+  'BADRI RAI COMPANY',
+  'DESCOS',
+  'SQUARE CONSULTANTS',
+  'LORD-TECH DATUS SOLUTIONS PVT. LTD.',
+  'CODIZYTECH'
+]
 
-/* ─────────────────────────────────────────
-   HOOKS & COMPONENTS
-───────────────────────────────────────── */
+/* ── COUNT-UP HOOK ── */
 function useCountUp(end, duration = 1.8, inView = true) {
   const [value, setValue] = useState(0)
   const motionValue = useMotionValue(0)
   useEffect(() => {
     if (!inView) return
     const controls = animate(motionValue, end, {
-      duration,
-      ease: 'easeOut',
+      duration, ease: 'easeOut',
       onUpdate(latest) { setValue(Math.round(latest)) },
     })
     return () => controls.stop()
@@ -65,226 +45,372 @@ function useCountUp(end, duration = 1.8, inView = true) {
   return value
 }
 
-function CounterCard({ icon: Icon, label, value }) {
+/* ── STAT CARD ── */
+function StatCard({ icon: Icon, label, value, suffix = '+', delay = 0 }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
   const count = useCountUp(value, 2.2, isInView)
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay }}>
       <div style={{
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%)',
-        border: '1px solid rgba(255,255,255,0.08)',
+        background: 'linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))',
+        border: '1px solid rgba(255,255,255,0.09)',
+        borderRadius: 20, padding: '20px 22px',
         backdropFilter: 'blur(20px)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)',
-      }} className="rounded-2xl p-6 md:p-7 h-full min-h-[150px] w-full">
-        <div className="w-10 h-10 flex items-center justify-center rounded-xl mb-3" style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 4px 12px rgba(249,115,22,0.4)' }}>
-          <Icon size={18} className="text-white" />
+        boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)',
+        transition: 'box-shadow 0.3s, transform 0.3s',
+        cursor: 'default',
+      }}
+        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.2)' }}
+        onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)' }}
+      >
+        <div style={{
+          width: 38, height: 38, borderRadius: 11, marginBottom: 12,
+          background: 'linear-gradient(135deg,#f97316,#ea580c)',
+          boxShadow: '0 4px 16px rgba(249,115,22,0.45)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon size={17} color="#fff" />
         </div>
-        <p className="text-3xl font-black" style={{ background: 'linear-gradient(90deg, #fb923c, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{count}+</p>
-        <p className="text-xs text-slate-400 mt-1 leading-tight">{label}</p>
+        <p style={{
+          fontSize: 28, fontWeight: 900, lineHeight: 1,
+          background: 'linear-gradient(90deg,#fb923c,#fbbf24)',
+          WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+        }}>{count}{suffix}</p>
+        <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.4)', marginTop: 5, lineHeight: 1.4 }}>{label}</p>
       </div>
     </motion.div>
   )
 }
 
-/* ─────────────────────────────────────────
-   HOME PAGE
-───────────────────────────────────────── */
+/* ── VIDEO HERO SECTION ── */
+function VideoHeroSection({ onNavigate }) {
+  return (
+    <section style={{
+      position: 'relative',
+      minHeight: '100vh',
+      paddingTop: 'calc(36px + 64px)',
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(180deg, #020810 0%, #030c18 60%, #020810 100%)'
+    }}>
+      {/* Orange accent glow */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(249,115,22,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      {/* Content Container */}
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', padding: '0 24px', width: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 60, paddingTop: 40, paddingBottom: 40 }}>
+
+        {/* Left Side: Text Content */}
+        <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 28 }}>
+
+          {/* Badge */}
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '7px 20px', borderRadius: 100,
+              background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.35)',
+              backdropFilter: 'blur(12px)',
+              fontSize: 12, fontWeight: 700, color: '#fb923c',
+              letterSpacing: '0.08em', textTransform: 'uppercase',
+            }}>
+              <span className="shimmer" style={{ width: 7, height: 7, borderRadius: '50%', background: '#f97316', display: 'inline-block' }} />
+              Elite Infrastructure &amp; IRTT Governance
+            </div>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.8 }}>
+            <h1 className="bebas text-6xl md:text-8xl leading-none text-white" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.8)' }}>
+              Precision<br />
+              <span style={{ background: 'linear-gradient(90deg,#fb923c 0%,#fbbf24 50%,#fb923c 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundSize: '200%', animation: 'shimmer 3s ease infinite' }}>
+                Engineering.
+              </span>
+              <br />
+              Predictable<br />Delivery.
+            </h1>
+          </motion.div>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.8 }}
+            style={{ color: 'rgba(255,255,255,0.45)', fontSize: 15, lineHeight: 1.8, maxWidth: 520, fontWeight: 300, margin: 0 }}>
+            Apex Structure Consultants provides advanced structural design and analysis services, ensuring safety, efficiency, and economy. We specialize in RCC, steel, and PEB structures with precise engineering and timely delivery.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.8 }}
+            style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <button className="btn-primary" onClick={() => onNavigate('/contact')} style={{ fontSize: 15, padding: '12px 32px' }}>
+              Get a Quote <ArrowRight size={14} />
+            </button>
+            <button className="btn-ghost" onClick={() => onNavigate('/projects')} style={{ fontSize: 15, padding: '12px 32px' }}>
+              View Projects
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Right Side: Video Content */}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 0.8 }}
+          style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center' }}>
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: 440,
+            aspectRatio: '4/5', /* Made frame wider than 9:16 */
+            borderRadius: 24,
+            overflow: 'hidden',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
+            background: '#0a0a0a'
+          }}>
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/BfQYSNH3Pd8?autoplay=1&mute=1&loop=1&playlist=BfQYSNH3Pd8&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&fs=0&iv_load_policy=3&disablekb=1&enablejsapi=0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen={false}
+              title="Hero Background Video"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '100%',
+                height: '100%',
+                transform: 'translate(-50%, -50%)',
+                border: 'none',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        </motion.div>
+
+      </div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 0.8 }}
+        style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+        <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>Scroll</p>
+        <div style={{ width: 1.5, height: 36, background: 'linear-gradient(180deg,rgba(249,115,22,0.7),transparent)', animation: 'float 1.8s ease-in-out infinite' }} />
+      </motion.div>
+    </section>
+  )
+}
+
+/* ── HERO CANVAS (floating particles) ── */
+function ParticleCanvas() {
+  const canvasRef = useRef(null)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let W = canvas.width = window.innerWidth
+    let H = canvas.height = window.innerHeight
+    let id
+
+    const N = 60
+    const pts = Array.from({ length: N }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.2 + 0.4,
+      opacity: Math.random() * 0.5 + 0.15,
+    }))
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H)
+      pts.forEach(p => {
+        p.x += p.vx; p.y += p.vy
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(249,115,22,${p.opacity})`
+        ctx.fill()
+      })
+      // connections
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y
+          const d = Math.sqrt(dx * dx + dy * dy)
+          if (d < 140) {
+            ctx.beginPath()
+            ctx.moveTo(pts[i].x, pts[i].y)
+            ctx.lineTo(pts[j].x, pts[j].y)
+            ctx.strokeStyle = `rgba(249,115,22,${0.06 * (1 - d / 140)})`
+            ctx.lineWidth = 0.8
+            ctx.stroke()
+          }
+        }
+      }
+      id = requestAnimationFrame(draw)
+    }
+    draw()
+
+    const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight }
+    window.addEventListener('resize', onResize)
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', onResize) }
+  }, [])
+  return <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0, opacity: 0.7 }} />
+}
+
+/* ── MARQUEE (clients) ── */
+function ClientMarquee() {
+  const double = [...clients, ...clients]
+  return (
+    <div style={{ overflow: 'hidden', width: '100%', position: 'relative' }}>
+      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 60, zIndex: 2, background: 'linear-gradient(90deg,#030812,transparent)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 60, zIndex: 2, background: 'linear-gradient(270deg,#030812,transparent)', pointerEvents: 'none' }} />
+      <div className="marquee-track" style={{ display: 'flex', gap: 16, width: 'max-content' }}>
+        {double.map((name, i) => (
+          <div key={i} style={{
+            padding: '7px 18px', borderRadius: 100, flexShrink: 0,
+            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+            fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.05em',
+            whiteSpace: 'nowrap',
+          }}>{name}</div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ── MAIN PAGE ── */
 export default function HomePage() {
-  const [activeNav, setActiveNav] = useState('home')
-  const [isLoading, setIsLoading] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const link = document.createElement('link')
-    link.rel = 'stylesheet'
-    link.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap'
-    document.head.appendChild(link)
-    const timer = setTimeout(() => setIsLoading(false), 800)
-    return () => clearTimeout(timer)
-  }, [])
-
-  useEffect(() => {
-    const interval = setInterval(() => setCurrentSlide((p) => (p + 1) % irttSlides.length), 5000)
-    return () => clearInterval(interval)
-  }, [])
-
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
-  const handleScroll = (id) => {
-    if (id === 'contact') {
-      navigate('/contact')
-      return
-    }
-    if (id === 'about') {
-      navigate('/about')
-      return
-    }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    setActiveNav(id)
-    setMenuOpen(false)
-  }
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 700)
+    return () => clearTimeout(t)
+  }, [])
 
-  const baseStyle = {
-    fontFamily: "'Outfit', sans-serif",
-    background: '#030812',
-  }
+  useEffect(() => {
+    const iv = setInterval(() => setCurrentSlide(p => (p + 1) % irttSlides.length), 4500)
+    return () => clearInterval(iv)
+  }, [])
+
+  const scrollDown = () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <div style={baseStyle} className="min-h-screen text-white">
-      {/* Global CSS */}
-      <style>{`
-        * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #030812; }
-        ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 2px; }
-        .bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em; }
-        .glass-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
-          border: 1px solid rgba(255,255,255,0.07);
-          backdrop-filter: blur(20px);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
-        }
-        .orange-glow { box-shadow: 0 0 30px rgba(249,115,22,0.3), 0 4px 16px rgba(249,115,22,0.2); }
-        .text-gradient-orange {
-          background: linear-gradient(90deg, #fb923c, #fbbf24);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .noise-overlay::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-          pointer-events: none;
-          z-index: 0;
-        }
-        @keyframes shimmer { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-        .shimmer { animation: shimmer 2s ease-in-out infinite; }
-      `}</style>
+    <div style={{ fontFamily: "'Outfit',sans-serif", background: '#020810', minHeight: '100vh', color: '#fff' }}>
 
       {/* Loading */}
       <AnimatePresence>
         {isLoading && (
-          <motion.div className="fixed inset-0 z-[100] flex flex-col items-center justify-center" style={{ background: '#030812' }}
-            initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.6 } }}>
-            <div className="relative">
-              <div className="w-16 h-16 rounded-full border border-orange-500/20 animate-ping absolute inset-0" />
-              <div className="w-16 h-16 rounded-full border-2 border-t-orange-500 border-orange-500/10 animate-spin" style={{ boxShadow: '0 0 20px rgba(249,115,22,0.4)' }} />
+          <motion.div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#020810', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}
+            initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+            <div style={{ position: 'relative', width: 60, height: 60 }}>
+              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(249,115,22,0.15)', animation: 'ping 1.2s ease-out infinite' }} />
+              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#f97316', animation: 'spin 0.8s linear infinite' }} />
+              <style>{`@keyframes ping{0%{transform:scale(1);opacity:1}100%{transform:scale(2);opacity:0}} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
             </div>
-            <p className="mt-6 text-xs tracking-[0.3em] uppercase text-slate-500"> Structure</p>
+            <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)' }}>Loading</p>
           </motion.div>
         )}
       </AnimatePresence>
 
-
-
       <main>
-        {/* ── HERO ── */}
-        <section id="home" className="relative min-h-screen pt-24 overflow-hidden noise-overlay">
-          {/* Deep space background */}
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(30,60,120,0.3) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 80% 50%, rgba(249,115,22,0.08) 0%, transparent 60%), linear-gradient(180deg, #030812 0%, #050c1a 50%, #030812 100%)' }} />
+        {/* ══════════════ VIDEO HERO ══════════════ */}
+        <VideoHeroSection onNavigate={navigate} />
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10 py-12 grid lg:grid-cols-1 gap-10 items-start min-h-[calc(100vh-4rem)]">
-            <div className="flex flex-col gap-8">
-              {/* Badge */}
-              <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}
-                className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full text-xs font-semibold"
-                style={{ background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shimmer" />
-                Elite Infrastructure &amp; IRTT Governance
+        {/* ══════════════ STATS + IRTT ══════════════ */}
+        <section style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg,#020810 0%,#030c18 60%,#020810 100%)' }}>
+          {/* Scan line */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
+            <div style={{ position: 'absolute', left: 0, right: 0, height: 1, background: 'linear-gradient(90deg,transparent,rgba(249,115,22,0.15),transparent)', animation: 'scanline 8s linear infinite' }} />
+          </div>
+          <ParticleCanvas />
+
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '60px 24px 40px', width: '100%', position: 'relative', zIndex: 2 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+
+              {/* ── STATS ── */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}
+                style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14 }}>
+                <StatCard icon={Building2} label="Completed Projects" value={487} delay={0.1} />
+                <StatCard icon={Calendar} label="Years Experience" value={8} delay={0.2} />
+                <StatCard icon={Users} label="Happy Clients" value={357} delay={0.3} />
+                <StatCard icon={CheckCircle2} label="IRTT Compliance %" value={98} suffix="%" delay={0.4} />
+                <StatCard icon={Calendar} label="Years of Excellence" value={10} delay={0.5} />
               </motion.div>
 
-              {/* Headline */}
-              <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.8 }}>
-                <h1 className="bebas text-6xl md:text-8xl leading-none text-white" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.8)' }}>
-                  Precision<br />
-                  <span style={{ background: 'linear-gradient(90deg, #fb923c 0%, #fbbf24 50%, #fb923c 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundSize: '200%', animation: 'shimmer 3s ease infinite' }}>
-                    Engineering.
-                  </span>
-                  <br />
-                  Predictable<br />Delivery.
-                </h1>
+              {/* ── TRUSTED BY ── */}
+              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
+                style={{
+                  background: 'linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderRadius: 24, padding: '18px 24px',
+                  backdropFilter: 'blur(20px)',
+                }}>
+                <p style={{ fontSize: 10.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fb923c', marginBottom: 12, fontWeight: 700 }}>Trusted By</p>
+                <ClientMarquee />
               </motion.div>
 
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.28, duration: 0.8 }}
-                className="text-slate-400 text-sm md:text-base leading-relaxed max-w-md" style={{ fontWeight: 300 }}>
-                Trusted by global developers for risk-managed infrastructure delivery. Continuous intelligence with IRTT, stage-gate assurance, and compliance-grade execution.
-              </motion.p>
-
-              {/* CTAs */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42, duration: 0.8 }}
-                className="flex flex-wrap gap-3">
-                <button onClick={() => handleScroll('contact')}
-                  className="flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-white transition-all hover:scale-105 hover:brightness-110 orange-glow"
-                  style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)' }}>
-                  Get Quote <ArrowRight size={14} />
-                </button>
-                <button onClick={() => handleScroll('projects')}
-                  className="flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm text-white transition-all hover:scale-105"
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)' }}>
-                  Our Projects
-                </button>
-              </motion.div>
-
-              {/* Stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55, duration: 0.8 }}
-                className="grid grid-cols-2 sm:grid-cols-5 gap-6 lg:gap-8 w-full"
-              >
-                <CounterCard icon={Building2} label="Completed Projects" value={298} />
-                <CounterCard icon={Calendar} label="Years Experience" value={14} />
-                <CounterCard icon={Users} label="Happy Clients" value={115} />
-                <CounterCard icon={CheckCircle2} label="IRTT Compliance %" value={99} />
-                <CounterCard icon={Calendar} label="Years of Experience" value={10} />
-              </motion.div>
-
-              {/* Trusted by */}
-              <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.7 }}
-                className="glass-card rounded-3xl p-6">
-                <p className="text-xs uppercase tracking-[0.15em] mb-3" style={{ color: '#fb923c' }}>Trusted by</p>
-                <div className="flex flex-wrap gap-2">
-                  {['Esco', 'Luna Corp', 'NorthFlow', 'ArcRise', 'MetroBuild'].map((logo) => (
-                    <div key={logo} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 tracking-wide"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>{logo}</div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* IRTT Slider */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7 }}
-                className="glass-card rounded-3xl p-5">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-sm text-white tracking-wide">IRTT Operational Highlights</h3>
-                  <div className="flex gap-1.5">
+              {/* ── IRTT SLIDER ── */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.7 }}
+                style={{
+                  borderRadius: 24, overflow: 'hidden', position: 'relative',
+                  background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                }}>
+                <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h3 style={{ fontSize: 13.5, fontWeight: 800, color: '#fff', letterSpacing: '0.02em', margin: 0 }}>IRTT Operational Highlights</h3>
+                  <div style={{ display: 'flex', gap: 6 }}>
                     {irttSlides.map((_, i) => (
-                      <button key={i} onClick={() => setCurrentSlide(i)}
-                        className="rounded-full transition-all duration-300"
-                        style={{ width: currentSlide === i ? 20 : 6, height: 6, background: currentSlide === i ? '#f97316' : 'rgba(255,255,255,0.2)' }} />
+                      <button key={i} onClick={() => setCurrentSlide(i)} style={{
+                        width: currentSlide === i ? 20 : 6, height: 6, borderRadius: 99, border: 'none', cursor: 'pointer',
+                        background: currentSlide === i ? '#f97316' : 'rgba(255,255,255,0.25)',
+                        transition: 'width 0.3s, background 0.3s', padding: 0,
+                      }} />
                     ))}
                   </div>
                 </div>
-                <div className="relative h-72 md:h-96 overflow-hidden rounded-xl">
+                <div style={{ position: 'absolute', top: 66, left: 16, zIndex: 10 }}>
                   <AnimatePresence mode="wait">
-                    <motion.div key={currentSlide} variants={slideVariants} initial="initial" animate="animate" exit="exit"
-                      transition={{ duration: 0.50, ease: 'easeInOut' }} className="absolute inset-0">
-                      <img src={irttSlides[currentSlide].image} alt={irttSlides[currentSlide].title} className="h-full w-full object-cover" style={{ filter: 'brightness(0.6)' }} />
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,8,18,0.9) 0%, transparent 60%)' }} />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#fb923c' }}>{irttSlides[currentSlide].tag}</span>
-                        <h4 className="text-base font-bold text-white mt-0.5 leading-tight">{irttSlides[currentSlide].title}</h4>
-                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">{irttSlides[currentSlide].description}</p>
+                    <motion.span key={currentSlide}
+                      initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                      style={{
+                        background: 'linear-gradient(135deg,#f97316,#ea580c)',
+                        borderRadius: 100, padding: '4px 12px',
+                        fontSize: 10, fontWeight: 800, color: '#fff', letterSpacing: '0.1em', textTransform: 'uppercase',
+                        display: 'inline-block',
+                      }}>
+                      {irttSlides[currentSlide].tag}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+                <div style={{ height: 320, position: 'relative', overflow: 'hidden' }}>
+                  <AnimatePresence mode="wait">
+                    <motion.div key={currentSlide}
+                      initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }}
+                      transition={{ duration: 0.5, ease: 'easeInOut' }}
+                      style={{ position: 'absolute', inset: 0 }}>
+                      <img src={irttSlides[currentSlide].image} alt={irttSlides[currentSlide].title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.55)' }} />
+                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(2,8,16,0.95) 0%,transparent 55%)' }} />
+                      <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
+                        <h4 style={{ fontSize: 16, fontWeight: 800, color: '#fff', lineHeight: 1.3, marginBottom: 6 }}>{irttSlides[currentSlide].title}</h4>
+                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65 }}>{irttSlides[currentSlide].description}</p>
                       </div>
                     </motion.div>
                   </AnimatePresence>
                 </div>
               </motion.div>
+
             </div>
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8, duration: 0.8 }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, cursor: 'pointer', marginTop: 32 }}
+              onClick={scrollDown}>
+              <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)' }}>Scroll</p>
+              <ChevronDown size={16} color="rgba(249,115,22,0.6)" style={{ animation: 'float 1.8s ease-in-out infinite' }} />
+            </motion.div>
           </div>
         </section>
+
 
         <SectionsPage />
       </main>

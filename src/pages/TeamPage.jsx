@@ -13,41 +13,82 @@ const socialLinks = [
 
 const teamMembers = [
   {
-    name: 'Rajendra Singh',
-    role: 'Director & Founder',
-    description: 'Visionary structural engineer with 20+ years of experience leading complex infrastructure projects and ensuring IRTT compliance.',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'
+    name: 'Shailendra Pratap Singh Bhadoriya',
+    role: 'Associate Architect (Urban Plus)',
+    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    image: './sudhanshu11.jpg'
   },
   {
-    name: 'Amit Kumar',
-    role: 'Co-Founder & Lead Architect',
-    description: 'Expert in Vastu-compliant architectural planning and sustainable design, driving innovation across global projects.',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80'
+    name: 'Shubhanshu Mandlik',
+    role: 'Associate Architect (Urban Plus)',
+    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    image: './sudhanshu11.jpg'
   },
   {
-    name: 'Priya Sharma',
-    role: 'Senior Structural Engineer',
+    name: 'Dr.Kamal sharma',
+    role: 'Associate Architect (Urban Plus)',
+    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    image: './sudhanshu11.jpg'
+  },
+
+
+  {
+    name: 'Shiv Kumar',
+    role: 'Steel fabrication Engineer',
     description: 'Specializes in high-rise and industrial building design with advanced BIM modeling and precision engineering.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80'
+    image: './shiv1.jpeg'
   },
   {
-    name: 'Vikram Patel',
-    role: 'MEP Engineering Lead',
+    name: 'prateek Bajpayee',
+    role: 'Billing and Costimation',
     description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
   },
   {
-    name: 'Neha Gupta',
-    role: 'Project Manager',
-    description: 'Oversees timeline and budget management, ensuring that all projects are delivered efficiently without compromising quality.',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80'
+    name: 'Kuldeep Singh',
+    role: 'Steel fabrication Engineer',
+    description: 'Specializes in high-rise and industrial building design with advanced BIM modeling and precision engineering.',
+    image: './kudeep.jpeg'
   },
   {
-    name: 'Arjun Desai',
-    role: 'Site Supervisor',
-    description: 'Expert in on-site resource management and adhering to high safety and quality standards during project execution.',
-    image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=400&q=80'
+    name: 'Nawab Pal',
+    role: 'Draft Men',
+    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
+    image: './nawab1.jpg'
+  },
+  {
+    name: 'Pushpendra prajapati',
+    role: 'Data Management',
+    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
+    image: './push.jpg'
+  },
+  {
+    name: 'Kp1',
+    role: 'Associate Architect (Urban Plus)',
+    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    image: './sudhanshu11.jpg'
+  },
+  {
+    name: 'Kp2',
+    role: 'Associate Architect (Urban Plus)',
+    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    image: './sudhanshu11.jpg'
+  },
+  {
+    name: 'Kp3',
+    role: 'Associate Architect (Urban Plus)',
+    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    image: './sudhanshu11.jpg'
+  },
+
+  {
+    name: 'Nakul',
+    role: 'Billing And Estimation Division',
+    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
   }
+
+
 ]
 
 export default function TeamPage() {
@@ -104,14 +145,14 @@ export default function TeamPage() {
                 <div className="h-72 overflow-hidden relative">
                   <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" style={{ filter: 'grayscale(20%) contrast(1.1)' }} />
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,8,18,0.98) 0%, rgba(3,8,18,0.2) 50%, transparent 100%)' }} />
-                  
+
                   {/* Name overlay */}
                   <div className="absolute bottom-4 left-5 right-5">
                     <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
                     <p className="text-xs font-semibold tracking-wide uppercase" style={{ color: '#fb923c' }}>{member.role}</p>
                   </div>
                 </div>
-                
+
                 <div className="p-6 pt-4">
                   <p className="text-slate-400 text-sm leading-relaxed">{member.description}</p>
                   <div className="mt-5 flex gap-3">

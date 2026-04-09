@@ -1,35 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  color-scheme: light dark;
-  font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+  --orange: #f97316;
+  --orange-light: #fb923c;
+  --orange-gold: #fbbf24;
+  --bg-deep: #020810;
+  --bg-dark: #030c18;
+  --bg-card: rgba(255,255,255,0.035);
+  --border-subtle: rgba(255,255,255,0.07);
+  --glow-orange: 0 0 40px rgba(249,115,22,0.25);
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
-html, body, #root {
-  height: 100%;
-}
+html, body, #root { height: 100%; }
 
 body {
-  margin: 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  color: #e5e7eb;
+  background: var(--bg-deep);
+  color: #e2e8f0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-::selection {
-  background-color: rgb(249 115 22 / 45%);
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #f97316, #ea580c);
+  border-radius: 99px;
 }
 
-.container {
-  width: min(1200px, 100% - 2rem);
-  margin-inline: auto;
+/* ── Selection ── */
+::selection { background: rgba(249,115,22,0.35); color: #fff; }
+
+/* ── Utility classes ── */
+.bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em; }
+.outfit { font-family: 'Outfit', sans-serif; }
+
+.glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.015) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+  border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.orange-gradient { background: linear-gradient(135deg, #f97316, #ea580c); }
+
+.text-gradient-orange {
+  background: linear-gradient(90deg, #fb923c, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(90deg, #fbbf24, #f97316, #fbbf24);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-gold 3s ease infinite;
+}
+
+/* ── Animations ── */
+@keyframes shimmer-gold {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes shimmer { 0%,100%{opacity:0.5} 50%{opacity:1} }
+.shimmer { animation: shimmer 2s ease-in-out infinite; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(249,115,22,0.3); }
+  50% { box-shadow: 0 0 40px rgba(249,115,22,0.6), 0 0 80px rgba(249,115,22,0.2); }
+}
+.pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 20s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes borderPulse {
+  0%, 100% { border-color: rgba(249,115,22,0.3); }
+  50% { border-color: rgba(249,115,22,0.7); }
+}
+
+/* ── Button base ── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff; font-weight: 700; font-size: 14px;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 24px rgba(249,115,22,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+  text-decoration: none;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+.btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 32px rgba(249,115,22,0.55); }
+.btn-primary:hover::before { transform: translateX(100%); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px; border-radius: 100px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.8); font-weight: 600; font-size: 14px;
+  cursor: pointer; transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  background: rgba(249,115,22,0.08);
+  border-color: rgba(249,115,22,0.35);
+  color: #fb923c; transform: translateY(-2px);
+}
+
+.container { width: min(1200px, 100% - 2rem); margin-inline: auto; }
+
+/* ── Noise texture overlay ── */
+.noise::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity: 0.4; z-index: 1;
+}
+
+/* ── Card tilt (CSS only) ── */
+.tilt-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.tilt-card:hover { transform: perspective(1000px) rotateY(-3deg) rotateX(2deg) translateY(-6px); }
+
+/* ── Section divider ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(249,115,22,0.3), transparent);
+  margin: 0 auto;
+  width: 60%;
 }
 

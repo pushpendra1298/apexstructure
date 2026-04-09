@@ -6,7 +6,7 @@ import Footer from '../Footer'
 
 const socialLinks = [
   { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook' },
-  { Icon: Mail, href: 'mailto:apexstructureconsultant@gmail.com', label: 'Gmail' },
+  { Icon: Mail, href: 'mailto:apexstructureconsultants@gmail.com', label: 'Gmail' },
   { Icon: Linkedin, href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn' },
   { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE', label: 'Instagram' },
 ]

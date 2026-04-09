@@ -18,7 +18,7 @@ const img = {
 
 // ─── Pre-2016 experience types ─────────────────────────────────────────────
 export const previousExperience = {
-  period: '2008 – 2016',
+  period: '2018 – 2025',
   role: 'Structural Engineer',
   types: [
     'Spinning Unit', 'Weaving Unit', 'H Plant Area', 'Knitting Unit',

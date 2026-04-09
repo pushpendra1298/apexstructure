@@ -6,14 +6,14 @@ import { projects, previousExperience, tagColors } from '../data/projects'
 import Footer from '../Footer'
 
 const socialLinks = [
-  { Icon: Facebook,  href: 'https://facebook.com/YOUR_PAGE',          label: 'Facebook'  },
-  { Icon: Mail,      href: 'mailto:apexstructureconsultant@gmail.com', label: 'Gmail'     },
-  { Icon: Linkedin,  href: 'https://linkedin.com/company/YOUR_PAGE',   label: 'LinkedIn'  },
-  { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE',        label: 'Instagram' },
+  { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook' },
+  { Icon: Mail, href: 'mailto:apexstructureconsultant@gmail.com', label: 'Gmail' },
+  { Icon: Linkedin, href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn' },
+  { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE', label: 'Instagram' },
 ]
 
-const allTags  = ['All', ...Array.from(new Set(projects.map(p => p.tag)))]
-const allCats  = ['All', 'Architecture & Engineering', 'Structural Engineering']
+const allTags = ['All', ...Array.from(new Set(projects.map(p => p.tag)))]
+const allCats = ['All', 'Architecture & Engineering', 'Structural Engineering']
 
 export default function ProjectsPage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -67,7 +67,7 @@ export default function ProjectsPage() {
           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
             className="inline-flex flex-wrap justify-center gap-6 px-8 py-4 rounded-2xl"
             style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-            {[['50+', 'Projects (Post 2016)'], ['2008', 'Started As Engineer'], ['10+', 'States Covered']].map(([val, label]) => (
+            {[['487+', 'Projects'], ['2018', 'Started As Engineer'], ['11+', 'States Covered']].map(([val, label]) => (
               <div key={label} className="text-center">
                 <p className="text-xl font-black" style={{ color: '#fb923c' }}>{val}</p>
                 <p className="text-xs text-slate-500 mt-0.5">{label}</p>

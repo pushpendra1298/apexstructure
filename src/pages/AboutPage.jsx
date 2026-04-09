@@ -13,29 +13,19 @@ const socialLinks = [
 
 const teamMembers = [
   {
-    name: 'Rajendra Singh',
+    name: 'Mr. Gaurav Shrivastava',
     role: 'Director & Founder',
-    description: 'Visionary structural engineer with 20+ years of experience leading complex infrastructure projects and ensuring IRTT compliance.',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80'
+    description: 'Visionary structural engineer with 10+ years of experience leading complex infrastructure projects and ensuring IRTT compliance.',
+    image: '/Gaurav.jpeg'
   },
   {
-    name: 'Amit Kumar',
-    role: 'Co-Founder & Lead Architect',
-    description: 'Expert in Vastu-compliant architectural planning and sustainable design, driving innovation across global projects.',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80'
+    name: 'Mr. Aditya Rajput',
+    role: 'Co-Founder & Senior Structure Engineer',
+    description: 'Bringing 5+ years of experience in architectural planning, structural design, and sustainable solutions for innovative projects across global markets.',
+    image: '/f2.jpeg'
   },
-  {
-    name: 'Priya Sharma',
-    role: 'Senior Structural Engineer',
-    description: 'Specializes in high-rise and industrial building design with advanced BIM modeling and precision engineering.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    name: 'Vikram Patel',
-    role: 'MEP Engineering Lead',
-    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
-  }
+
+
 ]
 
 export default function AboutPage() {
@@ -112,7 +102,7 @@ export default function AboutPage() {
               style={{ color: '#fb923c', background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)' }}>
               <Users size={12} /> Leadership
             </span>
-            <h2 className="text-3xl md:text-5xl font-black text-white">Meet Our <span style={{ color: '#fb923c' }}>Team</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black text-white"> Founder <span style={{ color: '#fb923c' }}>& Co-Founder</span></h2>
             <p className="text-slate-400 mt-5 max-w-2xl mx-auto text-sm">
               The brilliant minds behind our precision execution. Our directors, co-founders, and specialized engineers bring decades of industry mastery.
             </p>
