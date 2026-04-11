@@ -61,7 +61,7 @@ function PaymentCard({ flipped }) {
       >
         {/* FRONT: UPI */}
         <div className="w-full [backface-visibility:hidden]">
-          <div className="min-h-[460px] rounded-[32px] border border-white/10 bg-white/[0.04] backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col">
+          <div className="min-h-[420px] sm:min-h-[460px] rounded-[32px] border border-white/10 bg-white/[0.04] backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col">
             <div className="border-b border-orange-400/10 bg-gradient-to-r from-orange-500/10 to-transparent px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
@@ -94,7 +94,7 @@ function PaymentCard({ flipped }) {
 
         {/* BACK: BANK */}
         <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-          <div className="min-h-[460px] h-full rounded-[32px] border border-white/10 bg-white/[0.04] backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col">
+          <div className="min-h-[420px] sm:min-h-[460px] rounded-[32px] border border-white/10 bg-white/[0.04] backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col">
             <div className="border-b border-orange-400/10 bg-gradient-to-r from-orange-500/10 to-transparent px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
@@ -129,14 +129,14 @@ export default function PremiumPaymentPage() {
   const [flipped, setFlipped] = useState(false)
 
   return (
-    <div className="h-screen bg-[#020817] text-white flex items-center justify-center px-4 py-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#020817] text-white flex items-start justify-center px-4 py-8 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(249,115,22,0.12),transparent_40%)]" />
-      <div className="relative z-10 w-full max-w-lg pt-16">
+      <div className="relative z-10 w-full max-w-lg pt-10 sm:pt-16 pb-8">
         <div className="mb-1 px-6 relative z-10 text-center">
           <motion.span initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold tracking-[0.18em] uppercase mb-4"
             style={{ color: '#fb923c', background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)' }}>
-            <Lock size={12} style={{ marginRight: 6 }} /> Secure Gateway
+            
           </motion.span>
 
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.7 }}

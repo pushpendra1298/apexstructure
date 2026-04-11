@@ -13,6 +13,43 @@ const socialLinks = [
 
 export default function ContactPage() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phoneNumber: '',
+    email: '',
+    projectType: '',
+    location: '',
+    budgetRange: '',
+    message: ''
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleWhatsApp = () => {
+    const { fullName, phoneNumber, email, projectType, location, budgetRange, message } = formData
+
+    // Validate if at least name and phone are provided (optional but good)
+    if (!fullName || !phoneNumber) {
+      alert('Please fill in at least your name and phone number.')
+      return
+    }
+
+    const text = `*New Project Inquiry* 🏗️\n\n` +
+      `👤 *Name:* ${fullName}\n` +
+      `📱 *Phone:* ${phoneNumber}\n` +
+      `📧 *Email:* ${email}\n` +
+      `🏗️ *Project:* ${projectType}\n` +
+      `📍 *Location:* ${location}\n` +
+      `💰 *Budget:* ${budgetRange}\n\n` +
+      `📝 *Message:* ${message}`
+
+    const encodedText = encodeURIComponent(text)
+    const whatsappUrl = `https://wa.me/918770182940?text=${encodedText}`
+    window.open(whatsappUrl, '_blank')
+  }
 
   return (
     <div className="min-h-screen text-white" style={{ fontFamily: "'Outfit', sans-serif", background: '#030812' }}>
@@ -23,8 +60,6 @@ export default function ContactPage() {
         ::-webkit-scrollbar-track { background: #030812; }
         ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 2px; }
       `}</style>
-
-
 
       {/* ── HERO ── */}
       <section className="relative pt-36 pb-16 overflow-hidden"
@@ -80,7 +115,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm">Email Us</h4>
-                    <span className="text-slate-400 text-xs mt-1 block">apexstructureconsultant@gmail.com</span>
+                    <span className="text-slate-400 text-xs mt-1 block">apexstructureconsultants@gmail.com</span>
                   </div>
                 </div>
 
@@ -97,15 +132,10 @@ export default function ContactPage() {
 
               {/* GOOGLE MAPS EMBED */}
               <div className="w-full h-64 sm:h-80 rounded-3xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
-                {/* 
-                  Paste your actual Google Maps embed link below in the "src" attribute.
-                  You can get it by searching your business on Google Maps -> Share -> Embed a map -> Copy HTML
-                  Extract ONLY the url inside src="..."
-                */}
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d223.7246153061657!2d78.19028000196734!3d26.20988741217712!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3976c41ccf7f5aaf%3A0x833d6af5b5e0f7d4!2sAkansha%20Apartment%2C%20City%20Center%2C%20Patel%20Nagar%2C%20Gwalior%2C%20Madhya%20Pradesh%20474002!5e0!3m2!1sen!2sin!4v1775297465431!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
-                  style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(80%)' }} // Adds a dark mode style filter
+                  style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) contrast(80%)' }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -123,15 +153,33 @@ export default function ContactPage() {
               <h3 className="text-2xl font-bold text-white mb-6">Send an <span style={{ color: '#fb923c' }}>Inquiry</span></h3>
 
               <div className="grid gap-4 sm:grid-cols-2 mb-4">
-                {['Full Name', 'Phone Number', 'Email', 'Project Type', 'Location', 'Budget Range'].map((placeholder) => (
-                  <input key={placeholder} type="text" placeholder={placeholder}
-                    className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500 col-span-1"
-                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
-                  />
-                ))}
+                <input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange}
+                  className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                />
+                <input type="text" name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={handleChange}
+                  className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                />
+                <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange}
+                  className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                />
+                <input type="text" name="projectType" placeholder="Project Type" value={formData.projectType} onChange={handleChange}
+                  className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                />
+                <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange}
+                  className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                />
+                <input type="text" name="budgetRange" placeholder="Budget Range" value={formData.budgetRange} onChange={handleChange}
+                  className="rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                />
               </div>
 
-              <textarea rows={5} placeholder="Tell us more about your project requirements..."
+              <textarea rows={5} name="message" placeholder="Tell us more about your project requirements..." value={formData.message} onChange={handleChange}
                 className="w-full resize-none rounded-xl px-4 py-3 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500 mb-6"
                 style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
               />
@@ -141,7 +189,7 @@ export default function ContactPage() {
                   style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 4px 15px rgba(249,115,22,0.3)' }}>
                   <Send size={14} /> Send Message
                 </button>
-                <button className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105"
+                <button onClick={handleWhatsApp} className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105"
                   style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', color: '#4ade80' }}>
                   <Phone size={14} /> WhatsApp Us
                 </button>

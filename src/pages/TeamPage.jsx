@@ -4,91 +4,93 @@ import { Link } from 'react-router-dom'
 import { Building2, ArrowLeft, Mail, Phone, Facebook, Linkedin, Instagram, Users } from 'lucide-react'
 import Footer from '../Footer'
 
-const socialLinks = [
-  { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook' },
-  { Icon: Mail, href: 'mailto:apexstructureconsultant@gmail.com', label: 'Gmail' },
-  { Icon: Linkedin, href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn' },
-  { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE', label: 'Instagram' },
-]
-
 const teamMembers = [
   {
     name: 'Shailendra Pratap Singh Bhadoriya',
-    role: 'Associate Architect (Urban Plus)',
-    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    role: 'Associate Architect ',
+    experience: '16+ Years Experience',
+    description: 'Associate Architect specializing in high-rise, commercial & industrial projects, advanced BIM, and precision-driven design.',
     image: './sudhanshu11.jpg'
   },
   {
     name: 'Shubhanshu Mandlik',
-    role: 'Associate Architect (Urban Plus)',
-    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
-    image: './sudhanshu11.jpg'
+    role: 'Associate Architect ',
+    experience: '15+ Years Experience',
+    description: 'Experienced Associate Architect focused on high-rise, commercial & industrial projects with advanced BIM and execution excellence.',
+    image: './shubhanshu.jpeg'
   },
   {
     name: 'Dr.Kamal sharma',
-    role: 'Associate Architect (Urban Plus)',
-    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    role: 'Senior Structure Engineer ',
+    experience: '11+ Years Experience',
+    description: 'Experienced Senior Structure Engineer specializing in BIM-based structural design and efficient project execution.',
+    image: './kamal.jpg'
+  },
+  {
+    name: 'Priya Prajapati',
+    role: 'HR',
+
+
     image: './sudhanshu11.jpg'
   },
-
-
   {
     name: 'Shiv Kumar',
-    role: 'Steel fabrication Engineer',
-    description: 'Specializes in high-rise and industrial building design with advanced BIM modeling and precision engineering.',
+    role: 'Design Engineer',
+
+
     image: './shiv1.jpeg'
   },
   {
     name: 'prateek Bajpayee',
-    role: 'Billing and Costimation',
-    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
+    role: 'Billing and Cost Estimation',
+
+
+    image: './prateek.jpg'
   },
   {
     name: 'Kuldeep Singh',
     role: 'Steel fabrication Engineer',
-    description: 'Specializes in high-rise and industrial building design with advanced BIM modeling and precision engineering.',
+
+
     image: './kudeep.jpeg'
   },
   {
     name: 'Nawab Pal',
-    role: 'Draft Men',
-    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
+    role: 'Senior Draftsman',
+    experience: '8+ Years Experience',
+
     image: './nawab1.jpg'
+  },
+
+  {
+    name: 'Arman Khan',
+    role: 'Draftsman',
+
+
+    image: './sudhanshu11.jpg'
   },
   {
     name: 'Pushpendra prajapati',
-    role: 'Data Management',
-    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
+    role: 'Data Manager',
+
+
     image: './push.jpg'
   },
   {
-    name: 'Kp1',
-    role: 'Associate Architect (Urban Plus)',
-    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
-    image: './sudhanshu11.jpg'
-  },
-  {
-    name: 'Kp2',
-    role: 'Associate Architect (Urban Plus)',
-    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
-    image: './sudhanshu11.jpg'
-  },
-  {
-    name: 'Kp3',
-    role: 'Associate Architect (Urban Plus)',
-    description: 'An accomplished Associate Architect at Urban Plus, specializing in high-rise, commercial, and industrial building design with expertise in advanced BIM modeling, precision engineering, and efficient project execution.',
+    name: 'Amar',
+    role: 'Site Supervisor',
+
+
     image: './sudhanshu11.jpg'
   },
 
   {
     name: 'Nakul',
-    role: 'Billing And Estimation Division',
-    description: 'Ensures seamless mechanical, electrical, and plumbing integrations for massive commercial and industrial projects.',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80'
-  }
+    role: 'Site Engineer',
 
 
+    image: './nakul.jpg'
+  },
 ]
 
 export default function TeamPage() {
@@ -103,7 +105,6 @@ export default function TeamPage() {
         ::-webkit-scrollbar-track { background: #030812; }
         ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 2px; }
       `}</style>
-
 
 
       {/* ── HERO ── */}
@@ -142,23 +143,20 @@ export default function TeamPage() {
               <motion.div key={member.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1, duration: 0.6 }}
                 className="group rounded-3xl overflow-hidden relative"
                 style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="h-72 overflow-hidden relative">
-                  <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" style={{ filter: 'grayscale(20%) contrast(1.1)' }} />
+                <div className="h-96 overflow-hidden relative">
+                  <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110" style={{ filter: 'grayscale(20%) contrast(1.1)' }} />
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,8,18,0.98) 0%, rgba(3,8,18,0.2) 50%, transparent 100%)' }} />
 
                   {/* Name overlay */}
                   <div className="absolute bottom-4 left-5 right-5">
                     <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
                     <p className="text-xs font-semibold tracking-wide uppercase" style={{ color: '#fb923c' }}>{member.role}</p>
+                    <p className="text-[10px] text-white/60 uppercase tracking-widest mt-1 font-medium">{member.experience}</p>
                   </div>
                 </div>
 
                 <div className="p-6 pt-4">
                   <p className="text-slate-400 text-sm leading-relaxed">{member.description}</p>
-                  <div className="mt-5 flex gap-3">
-                    <a href="#" className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:bg-white/10 text-slate-400 hover:text-white" style={{ background: 'rgba(255,255,255,0.05)' }}><Linkedin size={14} /></a>
-                    <a href="#" className="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:bg-white/10 text-slate-400 hover:text-white" style={{ background: 'rgba(255,255,255,0.05)' }}><Mail size={14} /></a>
-                  </div>
                 </div>
               </motion.div>
             ))}

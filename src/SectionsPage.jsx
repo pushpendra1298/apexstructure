@@ -95,7 +95,7 @@ export default function SectionsPage() {
       <Section id="about" style={{ paddingTop: '20px' }} bg="radial-gradient(ellipse 70% 60% at 20% 50%, rgba(249,115,22,0.04) 0%, transparent 60%), linear-gradient(180deg,#020810 0%,#040f1d 50%,#020810 100%)">
         <SectionTitle title="About Our Agency" subtitle="Who We Are" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
           {/* Left card */}
           <motion.div initial={{ opacity: 0, x: -28 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
             className="glass-card" style={{ borderRadius: 28, padding: 36, position: 'relative', overflow: 'hidden' }}>

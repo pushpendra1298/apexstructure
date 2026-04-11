@@ -20,17 +20,10 @@ export default function HeroSection() {
       <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full opacity-15 blur-3xl"
         style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }} />
 
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
-        <div className="absolute left-0 right-0 h-px"
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(249,115,22,0.4), transparent)',
-            animation: 'scanline 8s linear infinite'
-          }} />
-      </div>
+ 
 
       {/* Main content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-8 md:py-16">
         <div className="max-w-4xl mx-auto text-center">
 
           {/* Badge */}

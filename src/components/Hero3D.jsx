@@ -32,9 +32,19 @@ export default function Hero3D() {
     scene.add(group)
 
     let frame
+    const clock = new THREE.Clock()
     const animate = () => {
       frame = requestAnimationFrame(animate)
-      group.rotation.y += 0.01
+      const time = clock.getElapsedTime()
+
+      // Faster rotation - increased from static 0.01
+      group.rotation.y = time * 0.8
+      group.rotation.z = Math.sin(time * 0.5) * 0.1 // Subtle tilt for more life
+
+      // Faster Zoom in/out animation
+      const zoomFactor = Math.sin(time * 1.5) * 2.5
+      camera.position.z = 12 + zoomFactor
+      
       renderer.render(scene, camera)
     }
     animate()

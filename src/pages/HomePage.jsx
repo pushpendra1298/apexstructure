@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, animate, motion, useInView, useMotionValue } from 'framer-motion'
 import { Building2, Calendar, CheckCircle2, Users, ArrowRight, ChevronDown } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import CivilEngineeringHeroBackground from '../components/CivilEngineeringHeroBackground'
 import SectionsPage from '../SectionsPage'
 import Footer from '../Footer'
 
@@ -90,28 +91,45 @@ function VideoHeroSection({ onNavigate }) {
   return (
     <section style={{
       position: 'relative',
-      minHeight: '100vh',
-      paddingTop: 'calc(36px + 64px)',
+      minHeight: 'unset',
+      paddingTop: 'calc(36px + clamp(52px, 8vw, 64px))',
       overflow: 'hidden',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       justifyContent: 'center',
       background: 'linear-gradient(180deg, #020810 0%, #030c18 60%, #020810 100%)'
     }}>
+      {/* Three.js background */}
+      <CivilEngineeringHeroBackground style={{ zIndex: 0, opacity: 0.88 }} />
+
+      {/* Subtle "video" finishing overlays */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(255,255,255,0.06) 0%, transparent 60%)' }} />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 45%, rgba(0,0,0,0.28) 100%)' }} />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', opacity: 0.05, mixBlendMode: 'overlay', backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 2px, transparent 5px)' }} />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 1,
+        pointerEvents: 'none',
+        opacity: 0.035,
+        mixBlendMode: 'soft-light',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")`,
+      }} />
+
       {/* Orange accent glow */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(249,115,22,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
       {/* Content Container */}
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', padding: '0 24px', width: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 60, paddingTop: 40, paddingBottom: 40 }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', padding: '0 24px', width: '100%', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 'clamp(24px, 5vw, 60px)', paddingTop: 18, paddingBottom: 22 }}>
 
         {/* Left Side: Text Content */}
-        <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 28 }}>
+        <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 22, marginTop: 0 }}>
 
           {/* Badge */}
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '7px 20px', borderRadius: 100,
+              padding: '5px 20px', borderRadius: 100,
               background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.35)',
               backdropFilter: 'blur(12px)',
               fontSize: 12, fontWeight: 700, color: '#fb923c',
@@ -127,10 +145,10 @@ function VideoHeroSection({ onNavigate }) {
             <h1 className="bebas text-6xl md:text-8xl leading-none text-white" style={{ textShadow: '0 4px 40px rgba(0,0,0,0.8)' }}>
               Precision<br />
               <span style={{ background: 'linear-gradient(90deg,#fb923c 0%,#fbbf24 50%,#fb923c 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundSize: '200%', animation: 'shimmer 3s ease infinite' }}>
-                Engineering.
+                Engineering
               </span>
               <br />
-              Predictable<br />Delivery.
+              Predictable<br />Delivery
             </h1>
           </motion.div>
 
@@ -154,47 +172,11 @@ function VideoHeroSection({ onNavigate }) {
           </motion.div>
         </div>
 
-        {/* Right Side: Video Content */}
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 0.8 }}
-          style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center' }}>
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: 440,
-            aspectRatio: '4/5', /* Made frame wider than 9:16 */
-            borderRadius: 24,
-            overflow: 'hidden',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
-            background: '#0a0a0a'
-          }}>
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/BfQYSNH3Pd8?autoplay=1&mute=1&loop=1&playlist=BfQYSNH3Pd8&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&fs=0&iv_load_policy=3&disablekb=1&enablejsapi=0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen={false}
-              title="Hero Background Video"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                width: '100%',
-                height: '100%',
-                transform: 'translate(-50%, -50%)',
-                border: 'none',
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
-        </motion.div>
+        {/* Right Side video removed */}
 
       </div>
 
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 0.8 }}
-        style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-        <p style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>Scroll</p>
-        <div style={{ width: 1.5, height: 36, background: 'linear-gradient(180deg,rgba(249,115,22,0.7),transparent)', animation: 'float 1.8s ease-in-out infinite' }} />
-      </motion.div>
+      {/* Scroll cue removed */}
     </section>
   )
 }
@@ -329,7 +311,7 @@ export default function HomePage() {
 
               {/* ── STATS ── */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}
-                style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14 }}>
+                style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 14 }}>
                 <StatCard icon={Building2} label="Completed Projects" value={487} delay={0.1} />
                 <StatCard icon={Calendar} label="Years Experience" value={8} delay={0.2} />
                 <StatCard icon={Users} label="Happy Clients" value={357} delay={0.3} />
