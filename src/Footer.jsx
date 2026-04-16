@@ -1,12 +1,12 @@
-import { Building2, Facebook, Mail, MessageCircle, Linkedin, Instagram, MapPin, Phone, ArrowRight, ExternalLink } from 'lucide-react'
+import { Building2, Facebook, Mail, MessageCircle, Linkedin, Instagram, MapPin, Phone, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 const socialLinks = [
-  { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook', color: '#3b82f6' },
-  { Icon: MessageCircle, href: 'https://wa.me/917000937390', label: 'WhatsApp', color: '#25D366' },
-  { Icon: Linkedin, href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn', color: '#0ea5e9' },
-  { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE', label: 'Instagram', color: '#ec4899' },
+  { Icon: Facebook,       href: 'https://facebook.com/YOUR_PAGE',       label: 'Facebook',  color: '#3b82f6' },
+  { Icon: MessageCircle,  href: 'https://wa.me/917000937390',             label: 'WhatsApp',  color: '#25D366' },
+  { Icon: Linkedin,       href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn',  color: '#0ea5e9' },
+  { Icon: Instagram,      href: 'https://instagram.com/YOUR_HANDLE',      label: 'Instagram', color: '#ec4899' },
 ]
 
 const footerServices = [
@@ -16,26 +16,27 @@ const footerServices = [
 ]
 
 const quickLinks = [
-  { path: '/', label: 'Home' },
-  { path: '/about', label: 'About Us' },
-  { path: '/services', label: 'Services' },
-  { path: '/projects', label: 'Projects' },
+  { path: '/',             label: 'Home' },
+  { path: '/about',        label: 'About Us' },
+  { path: '/services',     label: 'Services' },
+  { path: '/projects',     label: 'Projects' },
   { path: '/testimonials', label: 'Testimonials' },
-  { path: '/payment', label: 'Payment' },
-  { path: '/contact', label: 'Contact' },
+  { path: '/payment',      label: 'Payment' },
+  { path: '/contact',      label: 'Contact' },
 ]
+
+const linkHover   = (color = '#fb923c') => ({
+  onMouseEnter: e => { e.currentTarget.style.color = color },
+  onMouseLeave: e => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)' },
+})
 
 export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
     <footer style={{ position: 'relative', fontFamily: "'Outfit',sans-serif" }}>
-      {/* Top gradient divider */}
       <div style={{ height: 1, background: 'linear-gradient(90deg,transparent,rgba(249,115,22,0.4),transparent)' }} />
-
-      {/* Deep background */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#030c18 0%,#020810 100%)', zIndex: 0 }} />
-      {/* Glow orbs */}
       <div style={{ position: 'absolute', top: 0, left: '20%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle,rgba(249,115,22,0.04),transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
       <div style={{ position: 'absolute', bottom: 0, right: '15%', width: 250, height: 250, borderRadius: '50%', background: 'radial-gradient(circle,rgba(30,60,120,0.06),transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
 
@@ -43,12 +44,7 @@ export default function Footer() {
 
         {/* CTA banner */}
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          style={{
-            background: 'linear-gradient(135deg,rgba(249,115,22,0.12),rgba(234,88,12,0.06))',
-            border: '1px solid rgba(249,115,22,0.2)', borderRadius: 24,
-            padding: '28px 36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20,
-            marginBottom: 56, backdropFilter: 'blur(20px)',
-          }}>
+          style={{ background: 'linear-gradient(135deg,rgba(249,115,22,0.12),rgba(234,88,12,0.06))', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 24, padding: '28px 36px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 56, backdropFilter: 'blur(20px)' }}>
           <div>
             <p style={{ fontSize: 11, fontWeight: 800, color: '#fb923c', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 8 }}>Ready to build?</p>
             <h3 style={{ fontSize: 'clamp(18px,3vw,26px)', fontWeight: 900, color: '#fff', lineHeight: 1.2 }}>
@@ -57,12 +53,7 @@ export default function Footer() {
             </h3>
           </div>
           <Link to="/contact"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 28px', borderRadius: 100,
-              background: 'linear-gradient(135deg,#f97316,#ea580c)', color: '#fff', fontWeight: 700, fontSize: 14,
-              textDecoration: 'none', boxShadow: '0 4px 24px rgba(249,115,22,0.4)',
-              transition: 'transform 0.2s, box-shadow 0.2s', flexShrink: 0,
-            }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 28px', borderRadius: 100, background: 'linear-gradient(135deg,#f97316,#ea580c)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none', boxShadow: '0 4px 24px rgba(249,115,22,0.4)', transition: 'transform 0.2s, box-shadow 0.2s', flexShrink: 0 }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(249,115,22,0.55)' }}
             onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 24px rgba(249,115,22,0.4)' }}>
             Get Free Quote <ArrowRight size={14} />
@@ -72,15 +63,10 @@ export default function Footer() {
         {/* Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 40, marginBottom: 48 }}>
 
-          {/* Brand col */}
-          <div style={{ gridColumn: 'span 1' }}>
+          {/* Brand */}
+          <div>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', marginBottom: 20 }}>
-              <div style={{
-                width: 44, height: 44, borderRadius: 13, flexShrink: 0,
-                background: 'linear-gradient(135deg,#f97316,#ea580c)',
-                boxShadow: '0 0 20px rgba(249,115,22,0.4)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden',
-              }}>
+              <div style={{ width: 44, height: 44, borderRadius: 13, flexShrink: 0, background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 20px rgba(249,115,22,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
                 <Building2 size={18} color="#fff" />
                 <img src="/logo.jpeg" alt="Logo" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
               </div>
@@ -93,14 +79,15 @@ export default function Footer() {
               Precision engineering with global standards and local excellence.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <a href="mailto:apexstructureconsultant@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#fb923c'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>
-                <Mail size={13} color="#f97316" /> apexstructureconsultant@gmail.com
-              </a>
-              <a href="tel:+917970147690" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#fb923c'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>
-                <Phone size={13} color="#f97316" /> +917970147690
-              </a>
+              {[
+                { href: 'mailto:apexstructureconsultant@gmail.com', Icon: Mail,   text: 'apexstructureconsultant@gmail.com' },
+                { href: 'tel:+917970147690',                        Icon: Phone,  text: '+917970147690' },
+              ].map(({ href, Icon, text }) => (
+                <a key={href} href={href} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
+                  {...linkHover()}>
+                  <Icon size={13} color="#f97316" /> {text}
+                </a>
+              ))}
               <p style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.25)', lineHeight: 1.6 }}>
                 <MapPin size={13} color="#f97316" style={{ flexShrink: 0, marginTop: 2 }} /> Gwalior, Madhya Pradesh, India
               </p>
@@ -108,16 +95,16 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div style={{ paddingLeft: '56px' }}>
+          <div style={{ paddingLeft: 56 }}>
             <p style={{ fontSize: 12, fontWeight: 800, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>Quick Links</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {quickLinks.map(item => (
-                <li key={item.path}>
-                  <Link to={item.path} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s, gap 0.2s' }}
+              {quickLinks.map(({ path, label }) => (
+                <li key={path}>
+                  <Link to={path} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s, gap 0.2s' }}
                     onMouseEnter={e => { e.currentTarget.style.color = '#fb923c'; e.currentTarget.style.gap = '10px' }}
                     onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; e.currentTarget.style.gap = '7px' }}>
                     <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#f97316', flexShrink: 0 }} />
-                    {item.label}
+                    {label}
                   </Link>
                 </li>
               ))}
@@ -145,11 +132,7 @@ export default function Footer() {
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
               {socialLinks.map(({ Icon, href, label, color }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                  style={{
-                    width: 40, height: 40, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                    transition: 'all 0.25s', textDecoration: 'none',
-                  }}
+                  style={{ width: 40, height: 40, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.25s', textDecoration: 'none' }}
                   onMouseEnter={e => { e.currentTarget.style.background = `${color}18`; e.currentTarget.style.borderColor = `${color}44`; e.currentTarget.style.transform = 'translateY(-3px)' }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.transform = '' }}>
                   <Icon size={16} color="rgba(255,255,255,0.45)" />
@@ -164,13 +147,12 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{ paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.18)' }}>
-            Designed &amp; built with precision · Apex Structure Consultants
-          </p>
+          <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.18)' }}>Designed &amp; built with precision · Apex Structure Consultants</p>
           <div style={{ display: 'flex', gap: 20 }}>
             {['Privacy Policy', 'Terms of Service'].map(t => (
               <a key={t} href="#" style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.2)', textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#fb923c'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}>
+                onMouseEnter={e => e.currentTarget.style.color = '#fb923c'}
+                onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}>
                 {t}
               </a>
             ))}

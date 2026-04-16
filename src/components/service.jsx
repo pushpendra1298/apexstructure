@@ -19,44 +19,37 @@ import Footer from "../Footer";
 const serviceCards = [
   {
     name: "Architecture Planning",
-    description:
-      "Vastu-compliant designs including floor plans, machine layouts, sections, elevations, 3D elevations, and authority submissions.",
+    description: "Vastu-compliant designs including floor plans, machine layouts, sections, elevations, 3D elevations, and authority submissions.",
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "Structural Engineering Design",
-    description:
-      "Design solutions for residential, commercial, institutional, and multistory buildings.",
+    description: "Design solutions for residential, commercial, institutional, and multistory buildings.",
     image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "Industrial Building Design",
-    description:
-      "Warehouses, RMG units, factories, boiler buildings, and pipe rack structures.",
+    description: "Warehouses, RMG units, factories, boiler buildings, and pipe rack structures.",
     image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "Interior Design",
-    description:
-      "Functional and Vastu-compliant interior design solutions for modern spaces.",
+    description: "Functional and Vastu-compliant interior design solutions for modern spaces.",
     image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "MEP Engineering Design",
-    description:
-      "Comprehensive mechanical, electrical, and plumbing design services.",
+    description: "Comprehensive mechanical, electrical, and plumbing design services.",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "Steel Fabrication Drawing",
-    description:
-      "Detailed fabrication drawings for steel structures and components.",
+    description: "Detailed fabrication drawings for steel structures and components.",
     image: "steel.png",
   },
   {
     name: "Pre-Engineered Building Design",
-    description:
-      "Estimation, design, and drawing services for PEB building systems.",
+    description: "Estimation, design, and drawing services for PEB building systems.",
     image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
   },
   {
@@ -73,14 +66,12 @@ const serviceCards = [
   },
   {
     name: "Detailed Project Report Preparation",
-    description:
-      "Comprehensive DPR preparation for engineering and infrastructure projects.",
+    description: "Comprehensive DPR preparation for engineering and infrastructure projects.",
     image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "RCC Culvert & Bridge Design",
-    description:
-      "Structural design solutions for RCC culverts, bridges, and crossings.",
+    description: "Structural design solutions for RCC culverts, bridges, and crossings.",
     image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=80",
   },
   {
