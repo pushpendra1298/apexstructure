@@ -3,14 +3,13 @@ import { motion } from 'framer-motion'
 import { Building2, ArrowLeftRight, QrCode, Smartphone, Lock, Copy, CheckCircle2, ShieldCheck } from 'lucide-react'
 
 const PAYMENT_DATA = {
-  accountHolder: 'INFOPEARL TECH SOLUTIONS PVT LTD',
-  accountNumber: '50200108035544',
-  ifsc: 'HDFC0006581',
-  branch: 'THATIPUR',
-  accountType: 'CURRENT',
-  upiId: 'infopearl396@ybl',
-  email: 'infopearl396@gmail.com',
-  phone: '+91 70009 37390',
+  accountHolder: 'Aditya Singh',
+  accountNumber: '50100867723226',
+  ifsc: 'HDFC0000192',
+  branch: 'Gwalior, Madhya Pradesh',
+  //  accountType: 'CURRENT',
+  upiId: '7771907709@hdfc',
+  phone: '+91 79701 47690',
 }
 
 function CopyRow({ label, value }) {
@@ -80,7 +79,7 @@ function PaymentCard({ flipped }) {
             <div className="p-4 flex-grow flex flex-col gap-2">
               <div className="mx-auto w-fit mb-2 rounded-3xl bg-white p-3 shadow-2xl">
                 <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=${PAYMENT_DATA.upiId}`}
+                  src={`/qrcode.jpeg`}
                   alt="QR"
                   className="h-[150px] w-[150px] rounded-xl"
                 />
@@ -136,7 +135,7 @@ export default function PremiumPaymentPage() {
           <motion.span initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold tracking-[0.18em] uppercase mb-4"
             style={{ color: '#fb923c', background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)' }}>
-            
+
           </motion.span>
 
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.7 }}

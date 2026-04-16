@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, animate, motion, useInView, useMotionValue } from 'framer-motion'
-import { Building2, Calendar, CheckCircle2, Users, ArrowRight, ChevronDown } from 'lucide-react'
+import { Building2, Calendar, CheckCircle2, Users, ArrowRight, ChevronDown, Star, Send, MessageSquarePlus, Quote } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import CivilEngineeringHeroBackground from '../components/CivilEngineeringHeroBackground'
 import SectionsPage from '../SectionsPage'
@@ -8,12 +8,42 @@ import Footer from '../Footer'
 
 /* ── DATA ── */
 const irttSlides = [
-  { tag: 'Assessment', title: 'Risk Profiling & Capacity Evaluation', description: 'Immediate visibility into permit, design, and cost risks for zone-wide portfolios.', image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=80' },
-  { tag: 'Planning', title: 'Schedule Integration with IRTT', description: 'Auto-trigger policy updates and cross-team status from multi-vendor handoffs.', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80' },
-  { tag: 'Execution', title: 'Live HSE & QC Status', description: '7-layer safety, quality, and compliance flags with proactive mitigation prompts.', image: 'https://images.unsplash.com/photo-1504436467286-2d2e2f0a7f1d?auto=format&fit=crop&w=1600&q=80' },
-  { tag: 'Finance', title: 'Cost Forecasting Accuracy', description: 'Dynamic BOQ reconciliation with on-chain risk buffers for contingency control.', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80' },
-  { tag: 'Stakeholder', title: 'Executive Reporting Suite', description: 'Daily IRTT heatmaps for board-ready decision support across country programs.', image: 'https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1600&q=80' },
-  { tag: 'Improvement', title: 'Performance Lifecycle Reviews', description: 'Post-project IRTT analytics for continuous improvement and client retention.', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80' },
+  {
+    tag: 'Risk & Feasibility',
+    title: 'Risk Profiling & Capacity Evaluation',
+    description: 'Immediate visibility into permit, design, and cost risks for zone-wide portfolios.',
+    image: '/feasibility.png'
+  },
+  {
+    tag: 'Project Planning',
+    title: 'Schedule Integration with IRTT',
+    description: 'Auto-trigger policy updates and cross-team status from multi-vendor handoffs.',
+    image: '/irtt.jpeg'
+  },
+  {
+    tag: 'Site Execution',
+    title: 'Live HSE & QC Status',
+    description: '7-layer safety, quality, and compliance flags with proactive mitigation prompts.',
+    image: '/irttt.jpeg'
+  },
+  {
+    tag: 'Cost Control',
+    title: 'Cost Forecasting Accuracy',
+    description: 'Dynamic BOQ reconciliation with on-chain risk buffers for contingency control.',
+    image: '/cost.png'
+  },
+  {
+    tag: 'Executive Insights',
+    title: 'Executive Reporting Suite',
+    description: 'Daily IRTT heatmaps for board-ready decision support across country programs.',
+    image: '/executive_reporting.png'
+  },
+  {
+    tag: 'Performance Analytics',
+    title: 'Performance Lifecycle Reviews',
+    description: 'Post-project IRTT analytics for continuous improvement and client retention.',
+    image: '/performance_analytics.png'
+  }
 ]
 
 const clients = [
@@ -83,6 +113,394 @@ function StatCard({ icon: Icon, label, value, suffix = '+', delay = 0 }) {
         <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.4)', marginTop: 5, lineHeight: 1.4 }}>{label}</p>
       </div>
     </motion.div>
+  )
+}
+
+/* ── REVIEW SUBMIT SECTION ── */
+function ReviewSubmitSection() {
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
+
+  const [name, setName] = useState('')
+  const [role, setRole] = useState('')
+  const [rating, setRating] = useState(0)
+  const [hoverRating, setHoverRating] = useState(0)
+  const [review, setReview] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [submittedReviews, setSubmittedReviews] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('apex_client_reviews') || '[]')
+    } catch { return [] }
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!name.trim() || !review.trim() || rating === 0) return
+
+    const newReview = {
+      id: Date.now(),
+      client: name.trim(),
+      role: role.trim() || 'Client',
+      rating,
+      feedback: review.trim(),
+      date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+    }
+
+    const updated = [newReview, ...submittedReviews]
+    setSubmittedReviews(updated)
+    localStorage.setItem('apex_client_reviews', JSON.stringify(updated))
+    window.dispatchEvent(new Event('apex_review_added'))
+    setName('')
+    setRole('')
+    setRating(0)
+    setReview('')
+    setSubmitted(true)
+    setTimeout(() => setSubmitted(false), 3000)
+  }
+
+  const inputStyle = {
+    width: '100%',
+    padding: '14px 18px',
+    borderRadius: 14,
+    border: '1px solid #e2e8f0',
+    background: '#ffffff',
+    color: '#1e293b',
+    fontSize: 14,
+    fontFamily: "'Outfit', sans-serif",
+    outline: 'none',
+    transition: 'border-color 0.3s, box-shadow 0.3s',
+    boxSizing: 'border-box',
+  }
+
+  const inputFocusHandler = (e) => {
+    e.currentTarget.style.borderColor = '#f97316'
+    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(249,115,22,0.12)'
+  }
+  const inputBlurHandler = (e) => {
+    e.currentTarget.style.borderColor = '#e2e8f0'
+    e.currentTarget.style.boxShadow = 'none'
+  }
+
+  return (
+    <section ref={sectionRef} style={{
+      position: 'relative',
+      overflow: 'hidden',
+      background: 'radial-gradient(ellipse 70% 55% at 30% 50%, rgba(249,115,22,0.06) 0%, transparent 60%), linear-gradient(180deg, #020810 0%, #040f1d 50%, #020810 100%)',
+      padding: '80px 0',
+    }}>
+      {/* Decorative orbs */}
+      <div style={{ position: 'absolute', top: -100, right: '15%', width: 350, height: 350, borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.07), transparent 65%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: -80, left: '10%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(251,191,36,0.05), transparent 65%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: '40%', left: -60, width: 180, height: 180, borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.04), transparent 70%)', pointerEvents: 'none' }} />
+
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
+
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          style={{ textAlign: 'center', marginBottom: 52 }}
+        >
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 14,
+            padding: '5px 16px', borderRadius: 100,
+            background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)',
+          }}>
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#f97316', display: 'inline-block' }} className="shimmer" />
+            <span style={{ fontSize: 11, fontWeight: 800, color: '#fb923c', letterSpacing: '0.14em', textTransform: 'uppercase' }}>Share Your Experience</span>
+          </div>
+          <h2 style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: 16 }}>
+            Leave a <span style={{ background: 'linear-gradient(90deg, #fb923c, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Review</span>
+          </h2>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)', maxWidth: 500, margin: '0 auto', lineHeight: 1.7, fontWeight: 300 }}>
+            Your feedback helps us improve and inspires others to build with confidence.
+          </p>
+          <div style={{ height: 2, width: 60, borderRadius: 99, background: 'linear-gradient(90deg, #f97316, #fbbf24)', margin: '16px auto 0' }} />
+        </motion.div>
+
+        {/* Two-column layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 28, alignItems: 'start' }}>
+
+          {/* Left: Info Panel */}
+          <motion.div
+            initial={{ opacity: 0, x: -28 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            style={{
+              background: 'linear-gradient(135deg, rgba(249,115,22,0.08), rgba(249,115,22,0.02))',
+              border: '1px solid rgba(249,115,22,0.15)',
+              borderRadius: 28,
+              padding: '40px 36px',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Corner glow */}
+            <div style={{ position: 'absolute', top: -30, right: -30, width: 140, height: 140, borderRadius: '50%', background: 'radial-gradient(circle, rgba(249,115,22,0.12), transparent 70%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', bottom: -20, left: -20, width: 100, height: 100, borderRadius: '50%', background: 'radial-gradient(circle, rgba(251,191,36,0.08), transparent 70%)', pointerEvents: 'none' }} />
+
+            {/* Icon */}
+            <div style={{
+              width: 56, height: 56, borderRadius: 16, marginBottom: 24,
+              background: 'linear-gradient(135deg, #f97316, #ea580c)',
+              boxShadow: '0 8px 28px rgba(249,115,22,0.4)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <MessageSquarePlus size={26} color="#fff" />
+            </div>
+
+            <h3 style={{ fontSize: 24, fontWeight: 900, color: '#fff', lineHeight: 1.3, marginBottom: 12 }}>
+              We Value Your <span style={{ background: 'linear-gradient(90deg, #fb923c, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Feedback</span>
+            </h3>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, marginBottom: 28, fontWeight: 300 }}>
+              Your review helps future clients make informed decisions and motivates our team to keep delivering excellence.
+            </p>
+
+            {/* Feature points */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {[
+                { icon: '⭐', title: 'Rate Our Work', desc: 'Share how satisfied you are with our engineering services.' },
+                { icon: '💬', title: 'Share Your Story', desc: 'Tell others about your project experience with us.' },
+                { icon: '🏗️', title: 'Help Us Improve', desc: 'Your insights drive our commitment to excellence.' },
+              ].map(item => (
+                <div key={item.title} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 18,
+                  }}>
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 3 }}>{item.title}</p>
+                    <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, fontWeight: 300 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Stats mini */}
+            <div style={{
+              marginTop: 28, paddingTop: 24,
+              borderTop: '1px solid rgba(249,115,22,0.12)',
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16,
+            }}>
+              <div>
+                <p style={{ fontSize: 26, fontWeight: 900, background: 'linear-gradient(90deg, #fb923c, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: '0 0 2px' }}>357+</p>
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>Happy Clients</p>
+              </div>
+              <div>
+                <p style={{ fontSize: 26, fontWeight: 900, background: 'linear-gradient(90deg, #fb923c, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: '0 0 2px' }}>4.8★</p>
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>Average Rating</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: Review Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 28 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <form onSubmit={handleSubmit} style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 28,
+              padding: '36px 32px',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 12px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
+              {/* Orange accent line at top */}
+              <div style={{ position: 'absolute', top: 0, left: 32, right: 32, height: 2, background: 'linear-gradient(90deg, transparent, #f97316, transparent)', borderRadius: 99 }} />
+
+              {/* Decorative quote icon */}
+              <div style={{ position: 'absolute', top: 16, right: 20, opacity: 0.04, pointerEvents: 'none' }}>
+                <Quote size={70} color="#f97316" />
+              </div>
+
+              <h3 style={{ fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 6 }}>
+                Write Your Review
+              </h3>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', marginBottom: 28, fontWeight: 300 }}>
+                Fill in the details below and share your experience.
+              </p>
+
+              {/* Name & Role row */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 18 }}>
+                <div>
+                  <label style={{ fontSize: 11, fontWeight: 700, color: '#fb923c', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 7 }}>
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Amit Sharma"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    required
+                    style={inputStyle}
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: 11, fontWeight: 700, color: '#fb923c', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 7 }}>
+                    Your Role
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Architect, Mumbai"
+                    value={role}
+                    onChange={e => setRole(e.target.value)}
+                    style={inputStyle}
+                    onFocus={inputFocusHandler}
+                    onBlur={inputBlurHandler}
+                  />
+                </div>
+              </div>
+
+              {/* Star Rating */}
+              <div style={{ marginBottom: 18 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#fb923c', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 10 }}>
+                  Rating *
+                </label>
+                <div style={{
+                  display: 'flex', gap: 4, alignItems: 'center',
+                  padding: '10px 16px', borderRadius: 14,
+                  background: 'rgba(249,115,22,0.04)', border: '1px solid rgba(249,115,22,0.1)',
+                  width: 'fit-content',
+                }}>
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHoverRating(star)}
+                      onMouseLeave={() => setHoverRating(0)}
+                      style={{
+                        background: 'none', border: 'none', cursor: 'pointer', padding: 3,
+                        transition: 'transform 0.2s',
+                        transform: (hoverRating >= star || rating >= star) ? 'scale(1.2)' : 'scale(1)',
+                      }}
+                    >
+                      <Star
+                        size={28}
+                        fill={(hoverRating || rating) >= star ? '#f97316' : 'transparent'}
+                        color={(hoverRating || rating) >= star ? '#f97316' : 'rgba(255,255,255,0.15)'}
+                        style={{ transition: 'all 0.2s', filter: (hoverRating || rating) >= star ? 'drop-shadow(0 0 6px rgba(249,115,22,0.5))' : 'none' }}
+                      />
+                    </button>
+                  ))}
+                  {rating > 0 && (
+                    <span style={{ marginLeft: 10, fontSize: 14, color: '#fb923c', fontWeight: 800 }}>
+                      {rating}/5
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Review Text */}
+              <div style={{ marginBottom: 24 }}>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#fb923c', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: 7 }}>
+                  Your Review *
+                </label>
+                <textarea
+                  placeholder="Share your experience with Apex Structure..."
+                  value={review}
+                  onChange={e => setReview(e.target.value)}
+                  required
+                  rows={4}
+                  style={{
+                    ...inputStyle,
+                    resize: 'vertical',
+                    minHeight: 120,
+                    lineHeight: 1.7,
+                  }}
+                  onFocus={inputFocusHandler}
+                  onBlur={inputBlurHandler}
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={!name.trim() || !review.trim() || rating === 0}
+                style={{
+                  width: '100%',
+                  padding: '16px 28px',
+                  borderRadius: 14,
+                  border: 'none',
+                  cursor: (!name.trim() || !review.trim() || rating === 0) ? 'not-allowed' : 'pointer',
+                  background: (!name.trim() || !review.trim() || rating === 0)
+                    ? 'rgba(255,255,255,0.06)'
+                    : 'linear-gradient(135deg, #f97316, #ea580c)',
+                  color: (!name.trim() || !review.trim() || rating === 0)
+                    ? 'rgba(255,255,255,0.25)'
+                    : '#fff',
+                  fontSize: 15,
+                  fontWeight: 800,
+                  fontFamily: "'Outfit', sans-serif",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                  transition: 'all 0.3s',
+                  boxShadow: (!name.trim() || !review.trim() || rating === 0)
+                    ? 'none'
+                    : '0 6px 24px rgba(249,115,22,0.4)',
+                  letterSpacing: '0.03em',
+                }}
+                onMouseEnter={e => {
+                  if (name.trim() && review.trim() && rating > 0) {
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(249,115,22,0.55)'
+                  }
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = ''
+                  e.currentTarget.style.boxShadow = (name.trim() && review.trim() && rating > 0)
+                    ? '0 6px 24px rgba(249,115,22,0.4)'
+                    : 'none'
+                }}
+              >
+                <Send size={16} />
+                Send Review
+              </button>
+
+              {/* Success Toast */}
+              <AnimatePresence>
+                {submitted && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                    transition={{ duration: 0.35 }}
+                    style={{
+                      marginTop: 18,
+                      padding: '14px 20px',
+                      borderRadius: 14,
+                      background: 'rgba(34,197,94,0.1)',
+                      border: '1px solid rgba(34,197,94,0.25)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                    }}
+                  >
+                    <CheckCircle2 size={18} color="#22c55e" />
+                    <span style={{ fontSize: 13.5, fontWeight: 600, color: '#4ade80' }}>
+                      Thank you! Your review has been submitted successfully.
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </form>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -393,6 +811,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ══════════════ CLIENT REVIEW SUBMISSION ══════════════ */}
+        <ReviewSubmitSection />
 
         <SectionsPage />
       </main>

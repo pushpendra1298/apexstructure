@@ -47,7 +47,7 @@ export default function ContactPage() {
       `📝 *Message:* ${message}`
 
     const encodedText = encodeURIComponent(text)
-    const whatsappUrl = `https://wa.me/918770182940?text=${encodedText}`
+    const whatsappUrl = `https://wa.me/+917970147690?text=${encodedText}`
     window.open(whatsappUrl, '_blank')
   }
 
@@ -105,7 +105,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm">Our Location</h4>
-                    <span className="text-slate-400 text-xs mt-1 block">123 Engineering Way, Industrial District, City, Country</span>
+                    <span className="text-slate-400 text-xs mt-1 block">City Centre, Gwalior, Near Raj Rajeshwari Apartment-474002</span>
                   </div>
                 </div>
 
@@ -125,7 +125,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm">Call Us</h4>
-                    <span className="text-slate-400 text-xs mt-1 block">+1 (555) 000-0000 | +91 7771 97709</span>
+                    <span className="text-slate-400 text-xs mt-1 block">+91 79701 47690 </span>
                   </div>
                 </div>
               </div>

@@ -81,8 +81,36 @@ export default function SectionsPage() {
     { step: '04', label: 'Delivery', desc: 'Final handover with IRTT certification and ongoing support.', color: '#f59e0b' },
   ], [])
 
+  // Read user-submitted reviews from localStorage
+  const [userReviews, setUserReviews] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('apex_client_reviews') || '[]')
+    } catch { return [] }
+  })
+
+  // Listen for new review submissions
+  useEffect(() => {
+    const handleNewReview = () => {
+      try {
+        setUserReviews(JSON.parse(localStorage.getItem('apex_client_reviews') || '[]'))
+      } catch { /* ignore */ }
+    }
+    window.addEventListener('apex_review_added', handleNewReview)
+    return () => window.removeEventListener('apex_review_added', handleNewReview)
+  }, [])
+
+  // Merge: user reviews first, then existing testimonials
+  const allTestimonials = useMemo(() => {
+    const mapped = userReviews.map(r => ({
+      client: r.client,
+      role: r.role || 'Client',
+      feedback: r.feedback,
+    }))
+    return [...mapped, ...testimonials]
+  }, [userReviews])
+
   const [activeSlide, setActiveSlide] = useState(0)
-  const totalSlides = Math.ceil(testimonials.length / 3)
+  const totalSlides = Math.ceil(allTestimonials.length / 3)
 
   useEffect(() => {
     const t = setInterval(() => setActiveSlide(p => (p + 1) % totalSlides), 3000)
@@ -310,7 +338,7 @@ export default function SectionsPage() {
               initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.45, ease: 'easeInOut' }}
               style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 18 }}>
-              {testimonials.slice(activeSlide * 3, activeSlide * 3 + 3).map((item, i) => (
+              {allTestimonials.slice(activeSlide * 3, activeSlide * 3 + 3).map((item, i) => (
                 <div key={item.client} className="glass-card" style={{ borderRadius: 24, padding: 28, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
                   {/* Quote icon */}
                   <div style={{ position: 'absolute', top: 20, right: 20, opacity: 0.08 }}>

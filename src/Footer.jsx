@@ -97,9 +97,9 @@ export default function Footer() {
                 onMouseEnter={e => e.currentTarget.style.color = '#fb923c'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>
                 <Mail size={13} color="#f97316" /> apexstructureconsultant@gmail.com
               </a>
-              <a href="tel:+917771977090" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
+              <a href="tel:+917970147690" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#fb923c'} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}>
-                <Phone size={13} color="#f97316" /> +91 7771 97709
+                <Phone size={13} color="#f97316" /> +917970147690
               </a>
               <p style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.25)', lineHeight: 1.6 }}>
                 <MapPin size={13} color="#f97316" style={{ flexShrink: 0, marginTop: 2 }} /> Gwalior, Madhya Pradesh, India

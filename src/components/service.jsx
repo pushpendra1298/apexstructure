@@ -51,7 +51,7 @@ const serviceCards = [
     name: "Steel Fabrication Drawing",
     description:
       "Detailed fabrication drawings for steel structures and components.",
-    image: "https://images.unsplash.com/photo-1536240478700-b869ad10ed34?auto=format&fit=crop&w=800&q=80",
+    image: "steel.png",
   },
   {
     name: "Pre-Engineered Building Design",
@@ -63,13 +63,13 @@ const serviceCards = [
     name: "Conventional Steel Building Design",
     description:
       "Designs for trusses, portal frames, and tubular steel structures.",
-    image: "https://images.unsplash.com/photo-1590272456521-1bbe160a18ce?auto=format&fit=crop&w=800&q=80",
+    image: "steel2.png",
   },
   {
     name: "STP & ETP Water Tank Design",
     description:
       "Design services for sewage and effluent treatment plant systems.",
-    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+    image: "Water_Filtration_Design.png",
   },
   {
     name: "Detailed Project Report Preparation",
