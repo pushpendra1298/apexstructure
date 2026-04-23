@@ -21,8 +21,41 @@ const gradText = { background: 'linear-gradient(90deg, #fb923c, #fbbf24)', Webki
 
 export default function ContactPage() {
   const [form, setForm] = useState({ fullName: '', phoneNumber: '', email: '', projectType: '', location: '', budgetRange: '', message: '' })
+  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState({ type: '', message: '' })
 
   const onChange = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }))
+
+  const sendMessage = async () => {
+    if (!form.fullName || !form.phoneNumber) {
+      setStatus({ type: 'error', message: 'Please fill in at least your name and phone number.' })
+      return
+    }
+
+    setLoading(true)
+    setStatus({ type: '', message: '' })
+
+    try {
+      const res = await fetch('https://apexstructureconsultants.com/backend/submit_contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus({ type: 'success', message: '✅ Inquiry submitted successfully! We will contact you soon.' })
+        setForm({ fullName: '', phoneNumber: '', email: '', projectType: '', location: '', budgetRange: '', message: '' })
+      } else {
+        setStatus({ type: 'error', message: data.message || 'Something went wrong. Please try again.' })
+      }
+    } catch {
+      setStatus({ type: 'error', message: 'Network error. Please check your connection and try again.' })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const sendWhatsApp = () => {
     if (!form.fullName || !form.phoneNumber) return alert('Please fill in at least your name and phone number.')
@@ -93,10 +126,22 @@ export default function ContactPage() {
               </div>
               <textarea rows={5} name="message" placeholder="Tell us more about your project requirements..." value={form.message} onChange={onChange}
                 className="w-full resize-none rounded-xl px-4 py-3 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500 mb-6" style={inputStyle} />
+
+              {status.message && (
+                <div className="rounded-xl px-4 py-3 text-sm font-semibold mb-4" style={{
+                  background: status.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)',
+                  border: `1px solid ${status.type === 'success' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)'}`,
+                  color: status.type === 'success' ? '#4ade80' : '#f87171',
+                }}>
+                  {status.message}
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-3">
-                <button className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition-all hover:scale-105"
+                <button onClick={sendMessage} disabled={loading}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm text-white transition-all hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
                   style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 4px 15px rgba(249,115,22,0.3)' }}>
-                  <Send size={14} /> Send Message
+                  <Send size={14} /> {loading ? 'Sending...' : 'Send Message'}
                 </button>
                 <button onClick={sendWhatsApp} className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:scale-105"
                   style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)', color: '#4ade80' }}>
