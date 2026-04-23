@@ -1,4 +1,7 @@
+import React from "react";
+import { motion } from "framer-motion";
 import { useSiteData } from "../hooks/useSiteData";
+import Footer from "../Footer";
 
 const defaultServiceCards = [
   {
@@ -45,11 +48,23 @@ const defaultServiceCards = [
 
 export default function ServicePage() {
   const { services } = useSiteData();
-  const displayServices = services.length > 0 ? services.map(s => ({
-    name: s.name,
-    description: s.description,
-    image: s.image_url || "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80"
-  })) : defaultServiceCards;
+  
+  // Create a list of names for database services to avoid duplicates from the default list
+  const dbServiceNames = services.map(s => s.name.toLowerCase());
+  
+  // Filter out default services that have the same name as database services
+  const uniqueDefaults = defaultServiceCards.filter(
+    def => !dbServiceNames.includes(def.name.toLowerCase())
+  );
+
+  const displayServices = [
+    ...services.map(s => ({
+      name: s.name,
+      description: s.description,
+      image: s.image_url || "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80"
+    })),
+    ...uniqueDefaults
+  ];
 
   return (
     <div

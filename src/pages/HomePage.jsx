@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import CivilEngineeringHeroBackground from '../components/CivilEngineeringHeroBackground'
 import SectionsPage from '../SectionsPage'
 import Footer from '../Footer'
+import { useSiteData } from '../hooks/useSiteData'
 
 /* ── DATA ── */
 const irttSlides = [
@@ -107,6 +108,7 @@ const onFocus = e => { e.currentTarget.style.borderColor = '#f97316'; e.currentT
 const onBlur = e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = 'none' }
 
 function ReviewSubmitSection() {
+  const { reviews: dynamicReviews } = useSiteData()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const [name, setName] = useState('')
@@ -115,26 +117,40 @@ function ReviewSubmitSection() {
   const [hover, setHover] = useState(0)
   const [review, setReview] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const [reviews, setReviews] = useState(() => { try { return JSON.parse(localStorage.getItem('apex_client_reviews') || '[]') } catch { return [] } })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!name.trim() || !review.trim() || !rating) return
-    const r = {
-      id: Date.now(), client: name.trim(), role: role.trim() || 'Client', rating,
-      feedback: review.trim(),
-      date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+    if (!name.trim() || !review.trim() || !rating || isSubmitting) return
+    
+    setIsSubmitting(true)
+    try {
+      const res = await fetch('/backend/submit_review.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_name: name.trim(),
+          role: role.trim() || 'Client',
+          rating: rating,
+          feedback: review.trim()
+        }),
+      })
+      const json = await res.json()
+      if (json.status === 'success') {
+        setName(''); setRole(''); setRating(0); setReview('')
+        setSubmitted(true)
+        setTimeout(() => setSubmitted(false), 5000)
+      } else {
+        alert(json.message || 'Failed to submit review')
+      }
+    } catch (err) {
+      alert('Connection error. Please try again later.')
+    } finally {
+      setIsSubmitting(false)
     }
-    const updated = [r, ...reviews]
-    setReviews(updated)
-    localStorage.setItem('apex_client_reviews', JSON.stringify(updated))
-    window.dispatchEvent(new Event('apex_review_added'))
-    setName(''); setRole(''); setRating(0); setReview('')
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
   }
 
-  const disabled = !name.trim() || !review.trim() || !rating
+  const disabled = !name.trim() || !review.trim() || !rating || isSubmitting
 
   return (
     <section ref={ref} style={{
@@ -380,6 +396,50 @@ function ClientMarquee() {
   )
 }
 
+/* ── TESTIMONIALS SECTION ── */
+function TestimonialsSection() {
+  const { reviews } = useSiteData()
+  if (!reviews || reviews.length === 0) return null
+
+  return (
+    <section style={{ padding: '80px 0', background: '#020810', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 50 }}>
+          <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, marginBottom: 16 }}>
+            What Our <span style={gradText}>Clients Say</span>
+          </h2>
+          <div style={{ height: 2, width: 60, background: '#f97316', margin: '0 auto' }} />
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+          {reviews.map((r, i) => (
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '30px', position: 'relative' }}>
+              <div style={{ color: '#fb923c', marginBottom: 15, fontSize: '1.2rem' }}>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <span key={idx} style={{ color: idx < r.rating ? '#fb923c' : 'rgba(255,255,255,0.1)' }}>★</span>
+                ))}
+              </div>
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: 20, fontStyle: 'italic' }}>
+                "{r.feedback}"
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #ea580c)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 16 }}>
+                  {r.client.charAt(0)}
+                </div>
+                <div>
+                  <h4 style={{ fontSize: 14, fontWeight: 800, color: '#fff', margin: 0 }}>{r.client}</h4>
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', margin: 0, textTransform: 'uppercase' }}>{r.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ── MAIN PAGE ── */
 export default function HomePage() {
   const [slide, setSlide] = useState(0)
@@ -475,6 +535,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <TestimonialsSection />
         <ReviewSubmitSection />
         <SectionsPage />
       </main>

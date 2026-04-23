@@ -1,9 +1,14 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 0); // Disable for production
 session_start();
 require_once 'config.php';
+
+/**
+ * Null-safe HTML escaping helper
+ */
+function safe_out($value) {
+    return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+}
 
 // Handle Logout
 if (isset($_GET['logout'])) {
@@ -37,36 +42,133 @@ if (!isset($_SESSION['admin_id'])) {
     ?>
     <!DOCTYPE html>
     <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login — Apex Admin</title>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
         <style>
-            body { font-family: 'Outfit', sans-serif; background: #030812; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-            .login-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 40px; border-radius: 24px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(20px); }
-            h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; text-align: center; }
-            h2 span { background: linear-gradient(90deg, #fb923c, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-            p { color: #94a3b8; text-align: center; font-size: 0.9rem; margin-bottom: 32px; }
-            .form-group { margin-bottom: 20px; }
-            label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #f97316; margin-bottom: 8px; }
-            input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-family: inherit; outline: none; transition: all 0.2s; }
-            input:focus { border-color: #f97316; background: rgba(255,255,255,0.08); }
-            .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #f97316, #ea580c); border: none; border-radius: 12px; color: #fff; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
-            .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(249,115,22,0.4); }
-            .error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 12px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 20px; text-align: center; }
+            body {
+                font-family: 'Outfit', sans-serif;
+                background: #030812;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                margin: 0;
+            }
+
+            .login-card {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 40px;
+                border-radius: 24px;
+                width: 100%;
+                max-width: 400px;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(20px);
+            }
+
+            h2 {
+                font-size: 1.8rem;
+                font-weight: 800;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+
+            h2 span {
+                background: linear-gradient(90deg, #fb923c, #fbbf24);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            p {
+                color: #94a3b8;
+                text-align: center;
+                font-size: 0.9rem;
+                margin-bottom: 32px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            label {
+                display: block;
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: #f97316;
+                margin-bottom: 8px;
+            }
+
+            input {
+                width: 100%;
+                padding: 12px 16px;
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                color: #fff;
+                font-family: inherit;
+                outline: none;
+                transition: all 0.2s;
+            }
+
+            input:focus {
+                border-color: #f97316;
+                background: rgba(255, 255, 255, 0.08);
+            }
+
+            .btn-login {
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(135deg, #f97316, #ea580c);
+                border: none;
+                border-radius: 12px;
+                color: #fff;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+                margin-top: 10px;
+            }
+
+            .btn-login:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+            }
+
+            .error {
+                background: rgba(239, 68, 68, 0.1);
+                border: 1px solid rgba(239, 68, 68, 0.2);
+                color: #f87171;
+                padding: 12px;
+                border-radius: 10px;
+                font-size: 0.85rem;
+                margin-bottom: 20px;
+                text-align: center;
+            }
         </style>
     </head>
+
     <body>
         <div class="login-card">
             <div style="text-align: center; margin-bottom: 24px;">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 8px 20px rgba(249,115,22,0.3);">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #fff;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <div
+                    style="width: 60px; height: 60px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 8px 20px rgba(249,115,22,0.3);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" style="color: #fff;">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
                 </div>
                 <h2>Apex <span>Admin</span></h2>
                 <p>Enter your credentials to access the dashboard</p>
             </div>
-            
+
             <?php if ($login_error): ?>
                 <div class="error"><?= $login_error ?></div>
             <?php endif; ?>
@@ -82,14 +184,17 @@ if (!isset($_SESSION['admin_id'])) {
                 </div>
                 <button type="submit" name="login" class="btn-login">Sign In to Dashboard</button>
             </form>
-            
-            <div style="margin-top: 24px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px;">
-                <a href="/" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem; transition: color 0.2s;" onMouseEnter="this.style.color='#f97316'" onMouseLeave="this.style.color='#94a3b8'">
+
+            <div
+                style="margin-top: 24px; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px;">
+                <a href="/" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem; transition: color 0.2s;"
+                    onMouseEnter="this.style.color='#f97316'" onMouseLeave="this.style.color='#94a3b8'">
                     ← Back to Website
                 </a>
             </div>
         </div>
     </body>
+
     </html>
     <?php
     exit();
@@ -156,12 +261,35 @@ if (isset($_GET['delete_service']) && is_numeric($_GET['delete_service'])) {
     exit();
 }
 
+// --- NEW: Handle Reviews ---
+if (isset($_GET['approve_review']) && is_numeric($_GET['approve_review'])) {
+    $stmt = $pdo->prepare("UPDATE client_reviews SET is_approved = 1 WHERE id = :id");
+    $stmt->execute([':id' => (int) $_GET['approve_review']]);
+    header("Location: admin.php?tab=reviews&msg=review_approved");
+    exit();
+}
+
+if (isset($_GET['unapprove_review']) && is_numeric($_GET['unapprove_review'])) {
+    $stmt = $pdo->prepare("UPDATE client_reviews SET is_approved = 0 WHERE id = :id");
+    $stmt->execute([':id' => (int) $_GET['unapprove_review']]);
+    header("Location: admin.php?tab=reviews&msg=review_unapproved");
+    exit();
+}
+
+if (isset($_GET['delete_review']) && is_numeric($_GET['delete_review'])) {
+    $stmt = $pdo->prepare("DELETE FROM client_reviews WHERE id = :id");
+    $stmt->execute([':id' => (int) $_GET['delete_review']]);
+    header("Location: admin.php?tab=reviews&msg=review_deleted");
+    exit();
+}
+
 // Tab logic
 $tab = $_GET['tab'] ?? 'inquiries';
 
 // Fetch filter for inquiries
 $filter = $_GET['filter'] ?? 'all';
 $search = trim($_GET['search'] ?? '');
+$date_filter = $_GET['date'] ?? '';
 
 $sql = "SELECT * FROM contact_inquiries";
 $params = [];
@@ -171,6 +299,11 @@ if ($filter === 'unread') {
     $conditions[] = "is_read = 0";
 } elseif ($filter === 'read') {
     $conditions[] = "is_read = 1";
+}
+
+if (!empty($date_filter)) {
+    $conditions[] = "DATE(submitted_at) = :date";
+    $params[':date'] = $date_filter;
 }
 
 if (!empty($search)) {
@@ -211,6 +344,10 @@ $unreadCount = $unreadStmt->fetchColumn();
 
 $todayStmt = $pdo->query("SELECT COUNT(*) FROM contact_inquiries WHERE DATE(submitted_at) = CURDATE()");
 $todayCount = $todayStmt->fetchColumn();
+
+// Fetch Reviews
+$reviews = $pdo->query("SELECT * FROM client_reviews ORDER BY submitted_at DESC")->fetchAll();
+$pendingReviewsCount = $pdo->query("SELECT COUNT(*) FROM client_reviews WHERE is_approved = 0")->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -421,6 +558,17 @@ $todayCount = $todayStmt->fetchColumn();
         .search-box button:hover {
             transform: scale(1.03);
             box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
         }
 
         /* ─── Table ─── */
@@ -968,6 +1116,9 @@ $todayCount = $todayStmt->fetchColumn();
                 'service_added' => '🚀 Service added successfully.',
                 'service_updated' => '📝 Service updated successfully.',
                 'service_deleted' => '🗑️ Service removed.',
+                'review_approved' => '✅ Review approved for website.',
+                'review_unapproved' => '⏳ Review moved to pending.',
+                'review_deleted' => '🗑️ Review deleted.',
             ];
             echo $messages[$_GET['msg']] ?? 'Action completed.';
             ?>
@@ -983,10 +1134,11 @@ $todayCount = $todayStmt->fetchColumn();
             </div>
             <div class="user-nav">
                 <div class="user-info">
-                    <span class="user-name"><?= htmlspecialchars($_SESSION['admin_name']) ?></span>
+                    <span class="user-name"><?= safe_out($_SESSION['admin_name'] ?? 'Admin') ?></span>
                     <span class="user-role">Administrator</span>
                 </div>
-                <a href="admin.php?logout=1" class="btn-logout" onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
+                <a href="admin.php?logout=1" class="btn-logout"
+                    onclick="return confirm('Are you sure you want to log out?')">Log Out</a>
             </div>
         </div>
 
@@ -994,7 +1146,12 @@ $todayCount = $todayStmt->fetchColumn();
         <nav class="admin-nav">
             <a href="admin.php?tab=inquiries" class="nav-item <?= $tab === 'inquiries' ? 'active' : '' ?>">Inquiries</a>
             <a href="admin.php?tab=services" class="nav-item <?= $tab === 'services' ? 'active' : '' ?>">Services</a>
-            <a href="admin.php?tab=settings" class="nav-item <?= $tab === 'settings' ? 'active' : '' ?>">Site Settings</a>
+            <a href="admin.php?tab=reviews" class="nav-item <?= $tab === 'reviews' ? 'active' : '' ?>">
+                Reviews
+                <?= $pendingReviewsCount > 0 ? "<span style='background:#f97316; color:#fff; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:5px'>$pendingReviewsCount</span>" : "" ?>
+            </a>
+            <a href="admin.php?tab=settings" class="nav-item <?= $tab === 'settings' ? 'active' : '' ?>">Site
+                Settings</a>
         </nav>
 
         <?php if ($tab === 'inquiries'): ?>
@@ -1023,12 +1180,26 @@ $todayCount = $todayStmt->fetchColumn();
                     <a href="admin.php?tab=inquiries&filter=read"
                         class="filter-tab <?= $filter === 'read' ? 'active' : '' ?>">Read</a>
                 </div>
-                <form class="search-box" method="GET" action="admin.php">
+                <form class="search-box" method="GET" action="admin.php" style="display: flex; gap: 10px;">
                     <input type="hidden" name="tab" value="inquiries">
-                    <input type="hidden" name="filter" value="<?= htmlspecialchars($filter) ?>">
-                    <input type="text" name="search" placeholder="Search by name, phone, email..."
-                        value="<?= htmlspecialchars($search) ?>">
+                    <input type="hidden" name="filter" value="<?= safe_out($filter) ?>">
+
+                    <div style="position: relative;">
+                        <input type="date" name="date" value="<?= safe_out($date_filter) ?>"
+                            style="padding: 12px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-family: inherit; outline: none; transition: all 0.2s;"
+                            onchange="this.form.submit()">
+                    </div>
+
+                    <input type="text" name="search" placeholder="Search by name, phone..."
+                        value="<?= safe_out($search) ?>" style="flex: 1;">
                     <button type="submit">Search</button>
+
+                    <?php if (!empty($search) || !empty($date_filter)): ?>
+                        <a href="admin.php?tab=inquiries&filter=<?= $filter ?>"
+                            style="padding: 12px; background: rgba(239,68,68,0.1); color: #f87171; border-radius: 12px; text-decoration: none; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center;">
+                            Reset
+                        </a>
+                    <?php endif; ?>
                 </form>
             </div>
 
@@ -1060,20 +1231,20 @@ $todayCount = $todayStmt->fetchColumn();
                                 <?php foreach ($inquiries as $row): ?>
                                     <tr class="<?= $row['is_read'] ? '' : 'unread' ?>">
                                         <td style="color: #64748b; font-size: 0.8rem"><?= $row['id'] ?></td>
-                                        <td class="name-cell"><?= htmlspecialchars($row['full_name']) ?></td>
-                                        <td><?= htmlspecialchars($row['phone_number']) ?></td>
-                                        <td><?= htmlspecialchars($row['email'] ?: '—') ?></td>
-                                        <td><?= htmlspecialchars($row['project_type'] ?: '—') ?></td>
-                                        <td><?= htmlspecialchars($row['location'] ?: '—') ?></td>
-                                        <td><?= htmlspecialchars($row['budget_range'] ?: '—') ?></td>
-                                        <td class="message-cell" title="<?= htmlspecialchars($row['message'] ?: '') ?>">
-                                            <?= htmlspecialchars($row['message'] ?: '—') ?>
+                                        <td class="name-cell"><?= safe_out($row['full_name']) ?></td>
+                                        <td><?= safe_out($row['phone_number']) ?></td>
+                                        <td><?= safe_out($row['email'] ?: '—') ?></td>
+                                        <td><?= safe_out($row['project_type'] ?: '—') ?></td>
+                                        <td><?= safe_out($row['location'] ?: '—') ?></td>
+                                        <td><?= safe_out($row['budget_range'] ?: '—') ?></td>
+                                        <td class="message-cell" title="<?= safe_out($row['message'] ?: '') ?>">
+                                            <?= safe_out($row['message'] ?: '—') ?>
                                         </td>
                                         <td class="time-cell"><?= date('d M Y, h:i A', strtotime($row['submitted_at'])) ?></td>
                                         <td>
                                             <div class="action-btns">
                                                 <button class="btn-action btn-view"
-                                                    onclick="showDetail(<?= htmlspecialchars(json_encode($row)) ?>)">View</button>
+                                                    onclick="showDetail(<?= safe_out(json_encode($row)) ?>)">View</button>
                                                 <?php if ($row['is_read']): ?>
                                                     <a href="admin.php?tab=inquiries&unread=<?= $row['id'] ?>"
                                                         class="btn-action btn-unread">Unread</a>
@@ -1104,24 +1275,99 @@ $todayCount = $todayStmt->fetchColumn();
                 <?php foreach ($services as $svc): ?>
                     <div class="service-card">
                         <?php if ($svc['image_url']): ?>
-                            <img src="<?= htmlspecialchars($svc['image_url']) ?>" class="service-img" alt="">
+                            <img src="<?= safe_out($svc['image_url']) ?>" class="service-img" alt="">
                         <?php else: ?>
                             <div class="service-img"
                                 style="display: flex; align-items: center; justify-content: center; color: #334155; font-size: 2rem">
                                 🏗️</div>
                         <?php endif; ?>
                         <div class="service-info">
-                            <h3 class="service-name"><?= htmlspecialchars($svc['name']) ?></h3>
-                            <p class="service-desc"><?= htmlspecialchars($svc['description']) ?></p>
+                            <h3 class="service-name"><?= safe_out($svc['name']) ?></h3>
+                            <p class="service-desc"><?= safe_out($svc['description']) ?></p>
                             <div class="service-actions">
                                 <button class="btn-action btn-view"
-                                    onclick="showServiceModal(<?= htmlspecialchars(json_encode($svc)) ?>)">Edit</button>
+                                    onclick="showServiceModal(<?= safe_out(json_encode($svc)) ?>)">Edit</button>
                                 <a href="admin.php?tab=services&delete_service=<?= $svc['id'] ?>" class="btn-action btn-delete"
                                     onclick="return confirm('Delete this service?')">Delete</a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
+            </div>
+
+        <?php elseif ($tab === 'reviews'): ?>
+            <div class="flex-between">
+                <h2 style="font-size: 1.5rem">Client Reviews</h2>
+            </div>
+            <div class="table-wrapper">
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Rating</th>
+                                <th>Feedback</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($reviews)): ?>
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <h3>No reviews yet</h3>
+                                        <p>Reviews submitted by clients will appear here.</p>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                            <?php foreach ($reviews as $rev): ?>
+                                <tr>
+                                    <td>
+                                        <div class="name-cell"><?= safe_out($rev['client_name']) ?></div>
+                                        <div style="font-size: 11px; color: #64748b"><?= safe_out($rev['role']) ?></div>
+                                    </td>
+                                    <td>
+                                        <div style="color: #fb923c; font-weight: 800">
+                                            <?= str_repeat('★', $rev['rating']) ?><span
+                                                style="color: rgba(255,255,255,0.1)"><?= str_repeat('★', 5 - $rev['rating']) ?></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="message-cell"
+                                            style="max-width: 400px; white-space: normal; line-height: 1.5">
+                                            <?= safe_out($rev['feedback']) ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php if ($rev['is_approved']): ?>
+                                            <span
+                                                style="color: #4ade80; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em">Approved</span>
+                                        <?php else: ?>
+                                            <span
+                                                style="color: #fb923c; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em">Pending</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="time-cell"><?= date('d M, Y', strtotime($rev['submitted_at'])) ?></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <?php if (!$rev['is_approved']): ?>
+                                                <a href="admin.php?tab=reviews&approve_review=<?= $rev['id'] ?>"
+                                                    class="btn-action btn-read">Approve</a>
+                                            <?php else: ?>
+                                                <a href="admin.php?tab=reviews&unapprove_review=<?= $rev['id'] ?>"
+                                                    class="btn-action btn-unread">Hide</a>
+                                            <?php endif; ?>
+                                            <a href="admin.php?tab=reviews&delete_review=<?= $rev['id'] ?>"
+                                                class="btn-action btn-delete"
+                                                onclick="return confirm('Delete this review?')">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         <?php elseif ($tab === 'settings'): ?>
@@ -1131,12 +1377,13 @@ $todayCount = $todayStmt->fetchColumn();
                     <div class="admin-card">
                         <h3
                             style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px">
-                            <?= ucfirst($category) ?> Information</h3>
+                            <?= ucfirst($category) ?> Information
+                        </h3>
                         <?php foreach ($rows as $s): ?>
                             <div class="form-group">
-                                <label><?= htmlspecialchars($s['label']) ?></label>
-                                <input type="text" name="settings[<?= htmlspecialchars($s['setting_key']) ?>]"
-                                    value="<?= htmlspecialchars($s['setting_value']) ?>" class="form-control">
+                                <label><?= safe_out($s['label']) ?></label>
+                                <input type="text" name="settings[<?= safe_out($s['setting_key']) ?>]"
+                                    value="<?= safe_out($s['setting_value']) ?>" class="form-control">
                             </div>
                         <?php endforeach; ?>
                     </div>

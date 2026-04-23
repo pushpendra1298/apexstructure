@@ -153,7 +153,7 @@ export default function Footer() {
         <div style={{ paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.18)' }}>Designed &amp; built with precision · Apex Structure Consultants</p>
           <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-            <a href="http://118.139.160.194/backend/admin.php" style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: 'rgba(255,255,255,0.15)', textDecoration: 'none', transition: 'color 0.2s' }}
+            <a href="http://apexstructureconsultants.in/backend/admin.php" style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: 'rgba(255,255,255,0.15)', textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.color = '#fb923c'}
               onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.15)'}>
               <Lock size={10} /> Admin Panel

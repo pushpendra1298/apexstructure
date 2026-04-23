@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE_URL = 'http://118.139.160.194/backend'; // Adjust based on your environment
+const API_BASE_URL = '/backend'; // Using relative path for HTTPS compatibility
 
 export function useSiteData() {
   const [data, setData] = useState({
@@ -11,28 +11,33 @@ export function useSiteData() {
       whatsapp: '+917970147690'
     },
     services: [],
+    reviews: [],
     loading: true,
     error: null
   });
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/get_site_data.php`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then(json => {
         if (json.status === 'success') {
           setData({
-            settings: json.settings,
-            services: json.services,
+            settings: json.settings || {},
+            services: json.services || [],
+            reviews: json.reviews || [],
             loading: false,
             error: null
           });
         } else {
-          setData(prev => ({ ...prev, loading: false, error: json.message }));
+          throw new Error(json.message || 'Unknown API error');
         }
       })
       .catch(err => {
         console.error('Error fetching site data:', err);
-        setData(prev => ({ ...prev, loading: false, error: 'Connection error' }));
+        setData(prev => ({ ...prev, loading: false, error: err.message }));
       });
   }, []);
 

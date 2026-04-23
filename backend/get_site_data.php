@@ -14,10 +14,14 @@ try {
     // Fetch Services
     $services = $pdo->query("SELECT * FROM services ORDER BY display_order ASC, name ASC")->fetchAll(PDO::FETCH_ASSOC);
 
+    // Fetch Approved Reviews
+    $reviews = $pdo->query("SELECT client_name as client, role, rating, feedback, DATE_FORMAT(submitted_at, '%d %b, %Y') as date FROM client_reviews WHERE is_approved = 1 ORDER BY submitted_at DESC LIMIT 20")->fetchAll(PDO::FETCH_ASSOC);
+
     echo json_encode([
         'status' => 'success',
         'settings' => $settings,
-        'services' => $services
+        'services' => $services,
+        'reviews' => $reviews
     ]);
 
 } catch (PDOException $e) {

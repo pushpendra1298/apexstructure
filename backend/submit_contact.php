@@ -1,22 +1,19 @@
-<?php
+require_once 'config.php';
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$host = "localhost";
-$dbname = "apex_db";
-$username = "apex_user";
-$password = "Apex1234@#$%^&";
+// Get raw POST data
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+if (!$data) {
+    echo json_encode(["success" => false, "message" => "No data provided"]);
+    exit;
 }
 
-$data = json_decode(file_get_contents("php://input"), true);
+try {
 
 $fullName = $data['fullName'] ?? '';
 $phoneNumber = $data['phoneNumber'] ?? '';
@@ -34,31 +31,28 @@ if (empty($fullName) || empty($phoneNumber)) {
     exit;
 }
 
-$sql = "INSERT INTO contact_inquiries 
-(full_name, phone_number, email, project_type, location, budget_range, message) 
-VALUES (:full_name, :phone_number, :email, :project_type, :location, :budget_range, :message)";
-
-$stmt = $conn->prepare($sql);
-
-$result = $stmt->execute([
-    ':full_name' => $fullName,
-    ':phone_number' => $phoneNumber,
-    ':email' => $email,
-    ':project_type' => $projectType,
-    ':location' => $location,
-    ':budget_range' => $budgetRange,
-    ':message' => $message
-]);
-
-if ($result) {
-    echo json_encode([
-        "success" => true,
-        "message" => "Inquiry submitted successfully"
+    $sql = "INSERT INTO contact_inquiries 
+    (full_name, phone_number, email, project_type, location, budget_range, message) 
+    VALUES (:full_name, :phone_number, :email, :project_type, :location, :budget_range, :message)";
+    
+    $stmt = $pdo->prepare($sql);
+    
+    $result = $stmt->execute([
+        ':full_name' => $fullName,
+        ':phone_number' => $phoneNumber,
+        ':email' => $email,
+        ':project_type' => $projectType,
+        ':location' => $location,
+        ':budget_range' => $budgetRange,
+        ':message' => $message
     ]);
-} else {
-    echo json_encode([
-        "success" => false,
-        "message" => "Failed to save inquiry"
-    ]);
+
+    if ($result) {
+        echo json_encode(["success" => true, "message" => "Inquiry submitted successfully"]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Failed to save inquiry"]);
+    }
+} catch (PDOException $e) {
+    echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
 }
 ?>
