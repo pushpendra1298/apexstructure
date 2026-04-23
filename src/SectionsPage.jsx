@@ -3,6 +3,14 @@ import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { CheckCircle2, MapPin, Star, Layers, ArrowRight, Quote } from 'lucide-react'
 import { featuredProjects, tagColors } from './data/projects'
+import { useSiteData } from './hooks/useSiteData'
+
+const defaultServices = [
+  { name: 'Architecture Planning', description: 'Vastu-compliant designs including floor plans, machine layouts, sections, elevations, 3D elevations, and authority submissions.', image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80' },
+  { name: 'Structural Engineering Design', description: 'Design solutions for residential, commercial, institutional, and multistory buildings.', image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80' },
+  { name: 'Industrial Building Design', description: 'Warehouses, RMG units, factories, boiler buildings, and pipe rack structures.', image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80' },
+  { name: 'Cost Estimation & Tender', description: 'Accurate cost estimation and detailed tender documentation services.', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80' },
+]
 
 const timeline = [
   { year: '2018', label: 'Founded as a boutique engineering team', icon: '🏗️' },
@@ -18,22 +26,6 @@ const testimonials = [
   { client: 'Morgan Associates', role: 'CEO, USA', feedback: 'Their structural expertise and execution strategy helped us optimize both cost and timeline efficiently.' },
   { client: 'Luna Realty', role: 'Director, UAE', feedback: 'Professional, responsive, and highly skilled. Apex Structure ensured smooth coordination across all project stages.' },
   { client: 'ArcRise Builders', role: 'Founder, UK', feedback: 'Outstanding attention to detail and on-site supervision. The team maintained quality standards at every step.' },
-]
-
-const services = [
-  { name: 'Architecture Planning', description: 'Vastu-compliant designs including floor plans, machine layouts, sections, elevations, 3D elevations, and authority submissions.', image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Structural Engineering Design', description: 'Design solutions for residential, commercial, institutional, and multistory buildings.', image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Industrial Building Design', description: 'Warehouses, RMG units, factories, boiler buildings, and pipe rack structures.', image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Cost Estimation & Tender', description: 'Accurate cost estimation and detailed tender documentation services.', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80' },
-  { name: 'RCC Culvert & Bridge Design', description: 'Structural design solutions for RCC culverts, bridges, and crossings.', image: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=80' },
-  { name: 'MEP Engineering Design', description: 'Comprehensive mechanical, electrical, and plumbing design services.', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Steel Fabrication Drawing', description: 'Detailed fabrication drawings for steel structures and components.', image: 'https://images.unsplash.com/photo-1536240478700-b869ad10ed34?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Pre-Engineered Building Design', description: 'Estimation, design, and drawing services for PEB building systems.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Conventional Steel Building', description: 'Designs for trusses, portal frames, and tubular steel structures.', image: 'https://images.unsplash.com/photo-1590272456521-1bbe160a18ce?auto=format&fit=crop&w=800&q=80' },
-  { name: 'STP & ETP Water Tank Design', description: 'Design services for sewage and effluent treatment plant systems.', image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Detailed Project Report', description: 'Comprehensive DPR preparation for engineering and infrastructure projects.', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Cost Estimation & Tender', description: 'Accurate cost estimation and detailed tender documentation services.', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80' },
-  { name: 'Building Design through Vastu', description: 'Customized architectural planning that integrates Vastu principles.', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80' },
 ]
 
 const aboutPoints = [
@@ -77,6 +69,13 @@ function Section({ id, children, bg = 'transparent', style = {} }) {
 }
 
 export default function SectionsPage() {
+  const { services } = useSiteData()
+  const displayServices = services.length > 0 ? services.map(s => ({
+    name: s.name,
+    description: s.description,
+    image: s.image_url || 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80'
+  })) : defaultServices;
+
   const stages = useMemo(() => [
     { step: '01', label: 'Planning', desc: 'Project strategy & feasibility study with detailed risk profiling.' },
     { step: '02', label: 'Design', desc: 'Architectural + structural engineering packages with BIM coordination.' },
@@ -163,7 +162,7 @@ export default function SectionsPage() {
       <Section id="services" bg="linear-gradient(180deg,#020810 0%,#040f1c 50%,#020810 100%)">
         <SectionTitle title="Our Services" subtitle="Comprehensive Solutions" />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(250px,1fr))', gap: 18 }}>
-          {services.slice(0, 4).map(({ name, description, image }, i) => (
+          {displayServices.slice(0, 4).map(({ name, description, image }, i) => (
             <motion.div key={name} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.5, delay: i * 0.08 }} style={cardStyle}
               whileHover={{ y: -10, boxShadow: '0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.2)' }}>
@@ -186,8 +185,8 @@ export default function SectionsPage() {
         </div>
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, marginTop: 36 }}>
-          <Link to="/services" className="btn-primary">View All {services.length} Services <ArrowRight size={14} /></Link>
-          <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.2)' }}>Showing 4 of {services.length} services</p>
+          <Link to="/services" className="btn-primary">View All {displayServices.length} Services <ArrowRight size={14} /></Link>
+          <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.2)' }}>Showing 4 of {displayServices.length} services</p>
         </motion.div>
       </Section>
 

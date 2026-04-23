@@ -1,22 +1,6 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import {
-  Building2,
-  ArrowLeft,
-  Mail,
-  Phone,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
-} from "lucide-react";
-import Footer from "../Footer";
+import { useSiteData } from "../hooks/useSiteData";
 
-/* ─────────────────────────────────────────
-   DATA – 14 service cards with images
-───────────────────────────────────────── */
-const serviceCards = [
+const defaultServiceCards = [
   {
     name: "Architecture Planning",
     description: "Vastu-compliant designs including floor plans, machine layouts, sections, elevations, 3D elevations, and authority submissions.",
@@ -45,7 +29,7 @@ const serviceCards = [
   {
     name: "Steel Fabrication Drawing",
     description: "Detailed fabrication drawings for steel structures and components.",
-    image: "steel.png",
+    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
   },
   {
     name: "Pre-Engineered Building Design",
@@ -54,52 +38,18 @@ const serviceCards = [
   },
   {
     name: "Conventional Steel Building Design",
-    description:
-      "Designs for trusses, portal frames, and tubular steel structures.",
-    image: "steel2.png",
-  },
-  {
-    name: "STP & ETP Water Tank Design",
-    description:
-      "Design services for sewage and effluent treatment plant systems.",
-    image: "Water_Filtration_Design.png",
-  },
-  {
-    name: "Detailed Project Report Preparation",
-    description: "Comprehensive DPR preparation for engineering and infrastructure projects.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "RCC Culvert & Bridge Design",
-    description: "Structural design solutions for RCC culverts, bridges, and crossings.",
-    image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Cost Estimation & Tender Drawing",
-    description:
-      "Accurate cost estimation and detailed tender documentation services.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Building Design through Vastu",
-    description:
-      "Customized architectural planning that integrates Vastu principles.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+    description: "Designs for trusses, portal frames, and tubular steel structures.",
+    image: "https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
-const footerLinks = [
-  "Architecture Planning",
-  "Structural Design",
-  "Industrial Building",
-  "MEP Engineering",
-];
-
-/* ─────────────────────────────────────────
-   SERVICE PAGE
-───────────────────────────────────────── */
 export default function ServicePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { services } = useSiteData();
+  const displayServices = services.length > 0 ? services.map(s => ({
+    name: s.name,
+    description: s.description,
+    image: s.image_url || "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=800&q=80"
+  })) : defaultServiceCards;
 
   return (
     <div
@@ -114,14 +64,11 @@ export default function ServicePage() {
         ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 2px; }
       `}</style>
 
-
-
       {/* ── HERO BANNER ── */}
       <section
         className="relative pt-36 pb-20 overflow-hidden"
         style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(30,60,120,0.25) 0%, transparent 60%), linear-gradient(180deg, #030812 0%, #050c1a 60%, #030812 100%)" }}
       >
-        {/* Decorative glow orbs */}
         <div className="absolute top-20 left-10 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ background: "#f97316" }} />
         <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full opacity-10 blur-3xl" style={{ background: "#3b82f6" }} />
 
@@ -158,7 +105,6 @@ export default function ServicePage() {
             services for residential, commercial, industrial, and infrastructure projects.
           </motion.p>
 
-          {/* Stats strip */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -185,7 +131,7 @@ export default function ServicePage() {
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {serviceCards.map(({ name, description, image }, i) => (
+            {displayServices.map(({ name, description, image }, i) => (
               <motion.div
                 key={name}
                 initial={{ opacity: 0, y: 28 }}
@@ -202,7 +148,6 @@ export default function ServicePage() {
                   transition: "all 0.35s ease",
                 }}
               >
-                {/* Card image */}
                 <div className="relative h-44 overflow-hidden">
                   <img
                     src={image}
@@ -210,12 +155,10 @@ export default function ServicePage() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     style={{ filter: "brightness(0.7)" }}
                   />
-                  {/* Orange gradient overlay */}
                   <div
                     className="absolute inset-0"
                     style={{ background: "linear-gradient(to top, rgba(3,8,18,0.95) 0%, rgba(3,8,18,0.2) 60%, transparent 100%)" }}
                   />
-                  {/* Index badge */}
                   <div
                     className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black"
                     style={{ background: "linear-gradient(135deg, #f97316, #ea580c)", color: "#fff" }}
@@ -224,7 +167,6 @@ export default function ServicePage() {
                   </div>
                 </div>
 
-                {/* Card body */}
                 <div className="p-5 flex flex-col flex-1">
                   <h4 className="font-bold text-white text-sm mb-2 leading-snug group-hover:text-orange-200 transition-colors duration-300">
                     {name}
@@ -232,7 +174,6 @@ export default function ServicePage() {
                   <p className="text-slate-400 text-xs leading-relaxed flex-1">
                     {description}
                   </p>
-                  {/* Bottom accent line */}
                   <div
                     className="mt-4 h-px w-0 group-hover:w-full transition-all duration-500 rounded-full"
                     style={{ background: "linear-gradient(90deg, #f97316, #fbbf24)" }}
@@ -244,7 +185,6 @@ export default function ServicePage() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
       <Footer />
     </div>
   );

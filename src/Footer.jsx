@@ -1,36 +1,33 @@
-import { Building2, Facebook, Mail, MessageCircle, Linkedin, Instagram, MapPin, Phone, ArrowRight } from 'lucide-react'
+import { Building2, Facebook, Mail, MessageCircle, Linkedin, Instagram, MapPin, Phone, ArrowRight, Lock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
-const socialLinks = [
-  { Icon: Facebook,       href: 'https://facebook.com/YOUR_PAGE',       label: 'Facebook',  color: '#3b82f6' },
-  { Icon: MessageCircle,  href: 'https://wa.me/917000937390',             label: 'WhatsApp',  color: '#25D366' },
-  { Icon: Linkedin,       href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn',  color: '#0ea5e9' },
-  { Icon: Instagram,      href: 'https://instagram.com/YOUR_HANDLE',      label: 'Instagram', color: '#ec4899' },
-]
+import { useSiteData } from './hooks/useSiteData'
 
-const footerServices = [
-  'Architecture Planning', 'Structural Engineering', 'Industrial Building Design',
-  'Interior Design', 'MEP Engineering', 'Steel Fabrication',
-  'Pre-Engineered Buildings', 'Cost Estimation & Tender',
+const socialLinks = [
+  { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook', color: '#3b82f6' },
+  { Icon: MessageCircle, href: 'https://wa.me/917970147690', label: 'WhatsApp', color: '#25D366' },
+  { Icon: Linkedin, href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn', color: '#0ea5e9' },
+  { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE', label: 'Instagram', color: '#ec4899' },
 ]
 
 const quickLinks = [
-  { path: '/',             label: 'Home' },
-  { path: '/about',        label: 'About Us' },
-  { path: '/services',     label: 'Services' },
-  { path: '/projects',     label: 'Projects' },
+  { path: '/', label: 'Home' },
+  { path: '/about', label: 'About Us' },
+  { path: '/services', label: 'Services' },
+  { path: '/projects', label: 'Projects' },
   { path: '/testimonials', label: 'Testimonials' },
-  { path: '/payment',      label: 'Payment' },
-  { path: '/contact',      label: 'Contact' },
+  { path: '/payment', label: 'Payment' },
+  { path: '/contact', label: 'Contact' },
 ]
 
-const linkHover   = (color = '#fb923c') => ({
+const linkHover = (color = '#fb923c') => ({
   onMouseEnter: e => { e.currentTarget.style.color = color },
   onMouseLeave: e => { e.currentTarget.style.color = 'rgba(255,255,255,0.35)' },
 })
 
 export default function Footer() {
+  const { settings, services } = useSiteData()
   const year = new Date().getFullYear()
 
   return (
@@ -80,8 +77,8 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
-                { href: 'mailto:apexstructureconsultant@gmail.com', Icon: Mail,   text: 'apexstructureconsultant@gmail.com' },
-                { href: 'tel:+917970147690',                        Icon: Phone,  text: '+917970147690' },
+                { href: `mailto:${settings.email}`, Icon: Mail, text: settings.email },
+                { href: `tel:${settings.phone_number}`, Icon: Phone, text: settings.phone_number },
               ].map(({ href, Icon, text }) => (
                 <a key={href} href={href} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
                   {...linkHover()}>
@@ -89,7 +86,7 @@ export default function Footer() {
                 </a>
               ))}
               <p style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.25)', lineHeight: 1.6 }}>
-                <MapPin size={13} color="#f97316" style={{ flexShrink: 0, marginTop: 2 }} /> Gwalior, Madhya Pradesh, India
+                <MapPin size={13} color="#f97316" style={{ flexShrink: 0, marginTop: 2 }} /> {settings.address}
               </p>
             </div>
           </div>
@@ -115,14 +112,21 @@ export default function Footer() {
           <div>
             <p style={{ fontSize: 12, fontWeight: 800, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>Our Services</p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {footerServices.map(s => (
-                <li key={s} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, fontSize: 12.5, color: 'rgba(255,255,255,0.3)', lineHeight: 1.5, cursor: 'default', transition: 'color 0.2s' }}
-                  onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
-                  onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}>
-                  <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'rgba(249,115,22,0.5)', flexShrink: 0, marginTop: 6 }} />
-                  {s}
-                </li>
-              ))}
+              {(services.length > 0 ? services.slice(0, 8) : [
+                'Architecture Planning', 'Structural Engineering', 'Industrial Building Design',
+                'Interior Design', 'MEP Engineering', 'Steel Fabrication',
+                'Pre-Engineered Buildings', 'Cost Estimation & Tender',
+              ]).map(s => {
+                const name = typeof s === 'string' ? s : s.name;
+                return (
+                  <li key={name} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, fontSize: 12.5, color: 'rgba(255,255,255,0.3)', lineHeight: 1.5, cursor: 'default', transition: 'color 0.2s' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}>
+                    <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'rgba(249,115,22,0.5)', flexShrink: 0, marginTop: 6 }} />
+                    {name}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -148,7 +152,12 @@ export default function Footer() {
         {/* Bottom bar */}
         <div style={{ paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.18)' }}>Designed &amp; built with precision · Apex Structure Consultants</p>
-          <div style={{ display: 'flex', gap: 20 }}>
+          <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+            <a href="http://118.139.160.194/backend/admin.php" style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: 'rgba(255,255,255,0.15)', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#fb923c'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.15)'}>
+              <Lock size={10} /> Admin Panel
+            </a>
             {['Privacy Policy', 'Terms of Service'].map(t => (
               <a key={t} href="#" style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.2)', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#fb923c'}

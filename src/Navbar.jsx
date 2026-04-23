@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Building2, Mail, Phone, ArrowRight, X } from 'lucide-react'
+import { useSiteData } from './hooks/useSiteData'
 
 const links = [
   { label: 'Home', path: '/' },
@@ -15,6 +16,7 @@ const links = [
 const overlayDelays = links.map((_, i) => `.nb-overlay.open .nb-overlay-link:nth-child(${i + 1}){transition-delay:${(i + 1) * 0.05}s}`).join('')
 
 export default function Navbar() {
+  const { settings } = useSiteData()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
@@ -80,15 +82,15 @@ ${overlayDelays}
       `}</style>
 
       <div className="nb-topbar">
-        <a href="mailto:apexstructureconsultant@gmail.com" className="nb-email-link">
-          <Mail size={11} style={{ color: '#fb923c' }} /> apexstructureconsultant@gmail.com
+        <a href={`mailto:${settings.email}`} className="nb-email-link">
+          <Mail size={11} style={{ color: '#fb923c' }} /> {settings.email}
         </a>
         <span className="nb-topbar-center">|| SHREE JI ||</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-          <a href="tel:+917970147690" className="nb-phone-primary">
-            <Phone size={11} style={{ color: '#fb923c' }} /> +91 79701 47690
+          <a href={`tel:${settings.phone_number}`} className="nb-phone-primary">
+            <Phone size={11} style={{ color: '#fb923c' }} /> {settings.phone_number}
           </a>
-          <a href="tel:+917648845342" className="nb-phone-secondary">+91 76488 45342</a>
+          <a href={`tel:${settings.whatsapp}`} className="nb-phone-secondary">WhatsApp</a>
         </div>
       </div>
 
@@ -131,9 +133,8 @@ ${overlayDelays}
           <Link key={path} to={path} className={`nb-overlay-link${active(path) ? ' active' : ''}`} onClick={close}>{label}</Link>
         ))}
         <div className="nb-overlay-contact">
-          {['tel:+917970147690', 'tel:+917648845342', 'mailto:apexstructureconsultant@gmail.com'].map(href => (
-            <a key={href} href={href} onClick={close}>{href.replace(/^(tel:|mailto:)/, '').replace(/%40|@/, '@')}</a>
-          ))}
+          <a href={`tel:${settings.phone_number}`} onClick={close}>{settings.phone_number}</a>
+          <a href={`mailto:${settings.email}`} onClick={close}>{settings.email}</a>
         </div>
         <div className="nb-overlay-badge"><span /> Apex Structure Consultants <span /></div>
       </div>

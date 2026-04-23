@@ -2,16 +2,11 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
 import Footer from '../Footer'
+import { useSiteData } from '../hooks/useSiteData'
 
 const fields = [
   ['fullName', 'Full Name'], ['phoneNumber', 'Phone Number'], ['email', 'Email'],
   ['projectType', 'Project Type'], ['location', 'Location'], ['budgetRange', 'Budget Range'],
-]
-
-const contactInfo = [
-  { Icon: MapPin, title: 'Our Location', text: 'City Centre, Gwalior, Near Raj Rajeshwari Apartment-474002' },
-  { Icon: Mail, title: 'Email Us', text: 'apexstructureconsultants@gmail.com' },
-  { Icon: Phone, title: 'Call Us', text: '+91 79701 47690' },
 ]
 
 const inputCls = "rounded-xl px-4 py-3.5 text-sm text-white outline-none transition-all duration-200 placeholder-slate-500"
@@ -20,9 +15,16 @@ const iconBox = { background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(2
 const gradText = { background: 'linear-gradient(90deg, #fb923c, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }
 
 export default function ContactPage() {
+  const { settings } = useSiteData()
   const [form, setForm] = useState({ fullName: '', phoneNumber: '', email: '', projectType: '', location: '', budgetRange: '', message: '' })
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState({ type: '', message: '' })
+
+  const contactInfo = [
+    { Icon: MapPin, title: 'Our Location', text: settings.address },
+    { Icon: Mail, title: 'Email Us', text: settings.email },
+    { Icon: Phone, title: 'Call Us', text: settings.phone_number },
+  ]
 
   const onChange = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }))
 
@@ -36,7 +38,7 @@ export default function ContactPage() {
     setStatus({ type: '', message: '' })
 
     try {
-      const res = await fetch('https://apexstructureconsultants.com/backend/submit_contact.php', {
+      const res = await fetch('/backend/submit_contact.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -60,7 +62,7 @@ export default function ContactPage() {
   const sendWhatsApp = () => {
     if (!form.fullName || !form.phoneNumber) return alert('Please fill in at least your name and phone number.')
     const text = `*New Project Inquiry* 🏗️\n\n👤 *Name:* ${form.fullName}\n📱 *Phone:* ${form.phoneNumber}\n📧 *Email:* ${form.email}\n🏗️ *Project:* ${form.projectType}\n📍 *Location:* ${form.location}\n💰 *Budget:* ${form.budgetRange}\n\n📝 *Message:* ${form.message}`
-    window.open(`https://wa.me/+917970147690?text=${encodeURIComponent(text)}`, '_blank')
+    window.open(`https://wa.me/${settings.whatsapp.replace(/\+/g, '').replace(/\s/g, '')}?text=${encodeURIComponent(text)}`, '_blank')
   }
 
   return (
