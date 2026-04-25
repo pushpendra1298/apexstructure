@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Building2, Mail, Phone, ArrowRight, X } from 'lucide-react'
+import { useLocation, Link } from 'react-router-dom'
+import { Mail, Phone, Building2, ArrowRight, X } from 'lucide-react'
 import { useSiteData } from './hooks/useSiteData'
+
 
 const links = [
   { label: 'Home', path: '/' },
@@ -99,7 +100,7 @@ ${overlayDelays}
           <Link to="/" className="nb-logo" onClick={close}>
             <div className="nb-logo-icon">
               <Building2 size={22} color="#fff" />
-              <img src="/logo.jpeg" alt="Apex" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
+              <img src="/logo.webp" alt="Apex" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
             </div>
             <div className="nb-logo-text">
               <span className="nb-logo-name">Apex Structure Consultants <span style={{ color: '#fb923c' }}>.</span></span>

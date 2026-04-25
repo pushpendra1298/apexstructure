@@ -54,7 +54,8 @@ try {
     // Ensure display_order column exists
     try {
         $pdo->exec("ALTER TABLE `services` ADD COLUMN `display_order` INT DEFAULT 0 AFTER `image_url` ");
-    } catch (PDOException $e) {}
+    } catch (PDOException $e) {
+    }
 
     // Create client_reviews table
     $pdo->exec("
@@ -99,7 +100,7 @@ try {
     $username = 'admin';
     $password = 'password123';
     $hash = password_hash($password, PASSWORD_DEFAULT);
-    
+
     $checkUser = $pdo->prepare("SELECT COUNT(*) FROM admin_users WHERE username = ?");
     $checkUser->execute([$username]);
     if ($checkUser->fetchColumn() == 0) {

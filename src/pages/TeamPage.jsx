@@ -1,3 +1,4 @@
+
 import { motion } from 'framer-motion'
 import Footer from '../Footer'
 
@@ -5,18 +6,18 @@ const gradText = { background: 'linear-gradient(90deg, #fb923c, #fbbf24)', Webki
 const glassCard = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }
 
 const team = [
-  { name: 'Shailendra Pratap Singh Bhadoriya', role: 'Associate Architect', experience: '16+ Years Experience', description: 'Associate Architect specializing in high-rise, commercial & industrial projects, advanced BIM, and precision-driven design.', image: './sudhanshu11.jpg' },
-  { name: 'Shubhanshu Mandlik', role: 'Associate Architect', experience: '15+ Years Experience', description: 'Experienced Associate Architect focused on high-rise, commercial & industrial projects with advanced BIM and execution excellence.', image: './shubhanshu.jpeg' },
+  { name: 'Shailendra Pratap Singh Bhadoriya', role: 'Associate Architect', experience: '16+ Years Experience', description: 'Associate Architect specializing in high-rise, commercial & industrial projects, advanced BIM, and precision-driven design.', image: './sudhanshu11.webp' },
+  { name: 'Shubhanshu Mandlik', role: 'Associate Architect', experience: '15+ Years Experience', description: 'Experienced Associate Architect focused on high-rise, commercial & industrial projects with advanced BIM and execution excellence.', image: './shubhanshu.webp' },
   { name: 'Dr.Kamal sharma', role: 'Senior Structure Engineer', experience: '11+ Years Experience', description: 'Experienced Senior Structure Engineer specializing in BIM-based structural design and efficient project execution.', image: './kamal.jpg' },
-  { name: 'Priya Prajapati', role: 'HR', image: './priya.jpg' },
+  { name: 'Priya Prajapati', role: 'HR', image: './priya.webp' },
   { name: 'Shiv Kumar', role: 'Design Engineer', image: './shiv1.jpeg' },
   { name: 'Prateek Bajpayee', role: 'Billing and Cost Estimation', image: './prateek.jpg' },
-  { name: 'Kuldeep Singh', role: 'Steel fabrication Engineer', image: './kudeep.jpeg' },
+  { name: 'Kuldeep Singh', role: 'Steel fabrication Engineer', image: './kudeep.webp' },
   { name: 'Nawab Pal', role: 'Senior Draftsman', experience: '8+ Years Experience', image: './nawab1.jpg' },
-  { name: 'Arman Khan', role: 'Draftsman', image: './sudhanshu11.jpg' },
+  { name: 'Arman Khan', role: 'Draftsman', image: './sudhanshu11.webp' },
   { name: 'Pushpendra prajapati', role: 'Data Manager', image: './push.jpg' },
   { name: 'Amar', role: 'Site Supervisor', image: './amar.jpeg' },
-  { name: 'Nakul', role: 'Site Engineer', image: './nakul.jpg' },
+  { name: 'Nakul', role: 'Site Engineer', image: './nakul.webp' },
 ]
 
 export default function TeamPage() {

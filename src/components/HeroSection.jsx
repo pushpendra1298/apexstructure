@@ -1,6 +1,3 @@
-import { motion } from 'framer-motion'
-import { ArrowRight, Play } from 'lucide-react'
-import { Link } from 'react-router-dom'
 
 const gradText = { background: 'linear-gradient(135deg, #fb923c, #fbbf24, #fb923c)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'shimmer-gold 3s ease infinite' }
 const primaryShadow = '0 4px 24px rgba(249,115,22,0.4), inset 0 1px 0 rgba(255,255,255,0.15)'

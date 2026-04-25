@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { CheckCircle2, ArrowRight, MapPin, Layers, Quote, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { CheckCircle2, MapPin, Star, Layers, ArrowRight, Quote } from 'lucide-react'
 import { featuredProjects, tagColors } from './data/projects'
 import { useSiteData } from './hooks/useSiteData'
 
@@ -88,7 +88,7 @@ export default function SectionsPage() {
   })
 
   useEffect(() => {
-    const fn = () => { try { setUserReviews(JSON.parse(localStorage.getItem('apex_client_reviews') || '[]')) } catch {} }
+    const fn = () => { try { setUserReviews(JSON.parse(localStorage.getItem('apex_client_reviews') || '[]')) } catch { /* Ignore missing reviews */ } }
     window.addEventListener('apex_review_added', fn)
     return () => window.removeEventListener('apex_review_added', fn)
   }, [])

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
-import Footer from '../Footer'
 import { useSiteData } from '../hooks/useSiteData'
+import Footer from '../Footer'
 
 const fields = [
   ['fullName', 'Full Name'], ['phoneNumber', 'Phone Number'], ['email', 'Email'],

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Building2, MapPin, Layers } from 'lucide-react'
+import { Layers, MapPin, Building2 } from 'lucide-react'
 import { projects, previousExperience, tagColors } from '../data/projects'
 import Footer from '../Footer'
 

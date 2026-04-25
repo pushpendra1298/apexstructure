@@ -26,7 +26,7 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     renderer.physicallyCorrectLights = true
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3))
     renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.type = THREE.PCFShadowMap
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.05
     mount.appendChild(renderer.domElement)

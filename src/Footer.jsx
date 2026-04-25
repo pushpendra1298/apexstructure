@@ -1,8 +1,8 @@
-import { Building2, Facebook, Mail, MessageCircle, Linkedin, Instagram, MapPin, Phone, ArrowRight, Lock } from 'lucide-react'
+import { Facebook, Mail, MessageCircle, Linkedin, Instagram, Phone, Building2, MapPin, ArrowRight, Lock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-
 import { useSiteData } from './hooks/useSiteData'
+
 
 const socialLinks = [
   { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook', color: '#3b82f6' },
@@ -65,7 +65,7 @@ export default function Footer() {
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', marginBottom: 20 }}>
               <div style={{ width: 44, height: 44, borderRadius: 13, flexShrink: 0, background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 20px rgba(249,115,22,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
                 <Building2 size={18} color="#fff" />
-                <img src="/logo.jpeg" alt="Logo" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
+                <img src="/logo.webp" alt="Logo" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
               </div>
               <div>
                 <span style={{ display: 'block', fontWeight: 800, fontSize: 13, color: '#fff' }}>Apex Structure</span>

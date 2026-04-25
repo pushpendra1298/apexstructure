@@ -13,31 +13,31 @@ const irttSlides = [
     tag: 'Design Optimization',
     title: 'Structural Design Intelligence',
     description: 'AI-assisted optimization of steel sections, load paths, and material efficiency for cost-effective designs.',
-    image: '/Industrial.png'
+    image: '/Industrial.webp'
   },
   {
     tag: 'Procurement',
     title: 'Smart Material Procurement',
     description: 'Real-time vendor comparison, rate analysis, and steel quantity tracking to prevent over-ordering and delays.',
-    image: '/Warehouse.png'
+    image: '/Warehouse.webp'
   },
   {
     tag: 'BIM & Coordination',
     title: 'Clash Detection & Coordination',
     description: 'Integrated BIM workflows to identify structural, MEP, and architectural conflicts before execution.',
-    image: '/PEB.png'
+    image: '/PEB.webp'
   },
   {
     tag: 'Construction Monitoring',
     title: 'On-Site Progress Tracking',
     description: 'Live tracking of fabrication, erection, and site progress with delay alerts and productivity insights.',
-    image: '/Sinter.png'
+    image: '/Sinter.webp'
   },
   {
     tag: 'Quality Assurance',
     title: 'Inspection & Compliance Control',
     description: 'Digitized inspection workflows with weld tracking, QA checklists, and compliance reporting.',
-    image: '/commercial.png'
+    image: '/commercial.webp'
   }]
 
 const clients = [
@@ -108,7 +108,6 @@ const onFocus = e => { e.currentTarget.style.borderColor = '#f97316'; e.currentT
 const onBlur = e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.boxShadow = 'none' }
 
 function ReviewSubmitSection() {
-  const { reviews: dynamicReviews } = useSiteData()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
   const [name, setName] = useState('')
@@ -122,7 +121,7 @@ function ReviewSubmitSection() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!name.trim() || !review.trim() || !rating || isSubmitting) return
-    
+
     setIsSubmitting(true)
     try {
       const res = await fetch('/backend/submit_review.php', {
@@ -143,7 +142,7 @@ function ReviewSubmitSection() {
       } else {
         alert(json.message || 'Failed to submit review')
       }
-    } catch (err) {
+    } catch {
       alert('Connection error. Please try again later.')
     } finally {
       setIsSubmitting(false)
@@ -443,30 +442,14 @@ function TestimonialsSection() {
 /* ── MAIN PAGE ── */
 export default function HomePage() {
   const [slide, setSlide] = useState(0)
-  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
-  useEffect(() => { const t = setTimeout(() => setLoading(false), 700); return () => clearTimeout(t) }, [])
   useEffect(() => { const iv = setInterval(() => setSlide(p => (p + 1) % irttSlides.length), 4500); return () => clearInterval(iv) }, [])
 
   const scrollDown = () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
     <div style={{ fontFamily: "'Outfit',sans-serif", background: '#020810', minHeight: '100vh', color: '#fff' }}>
-      <AnimatePresence>
-        {loading && (
-          <motion.div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#020810', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}
-            initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-            <div style={{ position: 'relative', width: 60, height: 60 }}>
-              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(249,115,22,0.15)', animation: 'ping 1.2s ease-out infinite' }} />
-              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#f97316', animation: 'spin 0.8s linear infinite' }} />
-              <style>{`@keyframes ping{0%{transform:scale(1);opacity:1}100%{transform:scale(2);opacity:0}} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
-            </div>
-            <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)' }}>Loading</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <main>
         <VideoHeroSection onNavigate={navigate} />
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, Quote, ChevronLeft, ChevronRight, Users } from 'lucide-react'
+import { Star, Quote, Users, ChevronLeft, ChevronRight } from 'lucide-react'
 import Footer from '../Footer'
 
 const testimonials = [

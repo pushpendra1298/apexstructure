@@ -44,7 +44,7 @@ export default function Hero3D() {
       // Faster Zoom in/out animation
       const zoomFactor = Math.sin(time * 1.5) * 2.5
       camera.position.z = 12 + zoomFactor
-      
+
       renderer.render(scene, camera)
     }
     animate()

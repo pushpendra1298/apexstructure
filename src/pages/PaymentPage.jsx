@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Building2, ArrowLeftRight, QrCode, Lock, Copy, CheckCircle2, ShieldCheck } from 'lucide-react'
+import { CheckCircle2, Copy, ShieldCheck, QrCode, Building2, ArrowLeftRight } from 'lucide-react'
 
 const PD = {
   accountHolder: 'Aditya Singh',
@@ -74,7 +74,7 @@ function PaymentCard({ flipped }) {
             {cardHead(<QrCode size={20} className="text-white" />, 'UPI Payment')}
             <div className="p-4 flex-grow flex flex-col gap-2">
               <div className="mx-auto w-fit mb-2 rounded-3xl bg-white p-3 shadow-2xl">
-                <img src="/qrcode.jpeg" alt="QR" className="h-[150px] w-[150px] rounded-xl" />
+                <img src="/qrcode.webp" alt="QR" className="h-[150px] w-[150px] rounded-xl" />
               </div>
               <CopyRow label="UPI ID" value={PD.upiId} />
               <CopyRow label="Account Holder" value={PD.accountHolder} />

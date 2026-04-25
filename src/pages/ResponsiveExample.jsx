@@ -1,7 +1,4 @@
-import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { CheckCircle2, Smartphone, Monitor, Tablet, ArrowRight, Star } from 'lucide-react'
-import Footer from '../Footer'
+import { Smartphone, Monitor, Tablet } from 'lucide-react'
 
 export default function ResponsiveExample() {
   const features = [

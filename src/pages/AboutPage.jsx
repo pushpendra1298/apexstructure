@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion'
+import { Mail, Linkedin, Target, Award, Rocket, Users, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Mail, Linkedin, Users, Target, Award, Rocket, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import Footer from '../Footer'
 
 const team = [
-  { name: 'Mr. Gaurav Shrivastava', role: 'Director & Founder', desc: 'Visionary structural engineer with 10+ years of experience leading complex infrastructure projects and ensuring IRTT compliance.', image: '/Gaurav.jpeg' },
-  { name: 'Mr. Aditya Rajput', role: 'Co-Founder & Senior Structure Engineer', desc: 'Bringing 5+ years of experience in architectural planning, structural design, and sustainable solutions for innovative projects across global markets.', image: '/f2.jpeg' },
+  { name: 'Mr. Gaurav Shrivastava', role: 'Director & Founder', desc: 'Visionary structural engineer with 10+ years of experience leading complex infrastructure projects and ensuring IRTT compliance.', image: '/Gaurav.webp' },
+  { name: 'Mr. Aditya Rajput', role: 'Co-Founder & Senior Structure Engineer', desc: 'Bringing 5+ years of experience in architectural planning, structural design, and sustainable solutions for innovative projects across global markets.', image: '/aditya.webp' },
 ]
 
 const cards = [

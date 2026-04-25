@@ -1,7 +1,4 @@
-import React from "react";
-import { motion } from "framer-motion";
 import { useSiteData } from "../hooks/useSiteData";
-import Footer from "../Footer";
 
 const defaultServiceCards = [
   {
