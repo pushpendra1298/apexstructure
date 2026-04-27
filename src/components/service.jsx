@@ -24,6 +24,11 @@ const defaultServiceCards = [
     image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80",
   },
   {
+    name: "Land Surveying and Mapping",
+    description: "Comprehensive mechanical, electrical, and plumbing design services.",
+    image: './survey.jpg',
+  },
+  {
     name: "MEP Engineering Design",
     description: "Comprehensive mechanical, electrical, and plumbing design services.",
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
@@ -31,7 +36,7 @@ const defaultServiceCards = [
   {
     name: "Steel Fabrication Drawing",
     description: "Detailed fabrication drawings for steel structures and components.",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+    image: './steel.webp',
   },
   {
     name: "Pre-Engineered Building Design",
@@ -47,10 +52,10 @@ const defaultServiceCards = [
 
 export default function ServicePage() {
   const { services } = useSiteData();
-  
+
   // Create a list of names for database services to avoid duplicates from the default list
   const dbServiceNames = services.map(s => s.name.toLowerCase());
-  
+
   // Filter out default services that have the same name as database services
   const uniqueDefaults = defaultServiceCards.filter(
     def => !dbServiceNames.includes(def.name.toLowerCase())

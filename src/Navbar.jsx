@@ -91,7 +91,7 @@ ${overlayDelays}
           <a href={`tel:${settings.phone_number}`} className="nb-phone-primary">
             <Phone size={11} style={{ color: '#fb923c' }} /> {settings.phone_number}
           </a>
-          <a href={`tel:${settings.whatsapp}`} className="nb-phone-secondary">WhatsApp</a>
+          <a href={`tel:${settings.whatsapp}`} className="nb-phone-secondary">+917648845342</a>
         </div>
       </div>
 

@@ -88,11 +88,7 @@ export default function AboutPage() {
                   <div className="w-12 h-px mb-6" style={{ background: '#f97316' }} />
                   <p className="text-slate-400 text-base leading-relaxed mb-8 max-w-md">{m.desc}</p>
                   <div className="flex gap-4">
-                    {[Linkedin, Mail].map(Icon => (
-                      <a key={Icon.displayName} href="#" className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:bg-white/10 hover:scale-105 text-slate-400 hover:text-white" style={socialBtn}>
-                        <Icon size={16} />
-                      </a>
-                    ))}
+
                   </div>
                 </motion.div>
                 <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: i * 0.2 }}

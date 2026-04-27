@@ -4,6 +4,7 @@ import { CheckCircle2, ArrowRight, MapPin, Layers, Quote, Star } from 'lucide-re
 import { Link } from 'react-router-dom'
 import { featuredProjects, tagColors } from './data/projects'
 import { useSiteData } from './hooks/useSiteData'
+import ReviewSubmitSection from './components/ReviewSubmitSection'
 
 const defaultServices = [
   { name: 'Architecture Planning', description: 'Vastu-compliant designs including floor plans, machine layouts, sections, elevations, 3D elevations, and authority submissions.', image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80' },
@@ -247,6 +248,11 @@ export default function SectionsPage() {
           </div>
         </div>
       </Section>
+
+      <div className="section-divider" />
+
+      {/* REVIEW SUBMIT FORM */}
+      <ReviewSubmitSection />
 
       <div className="section-divider" />
 
