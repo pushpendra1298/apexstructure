@@ -185,8 +185,8 @@ export default function SectionsPage() {
         </div>
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, marginTop: 36 }}>
-          <Link to="/services" className="btn-primary">View All {displayServices.length} Services <ArrowRight size={14} /></Link>
-          <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.2)' }}>Showing 4 of {displayServices.length} services</p>
+          <Link to="/services" className="btn-primary">View All {displayServices.length = 10} Services <ArrowRight size={14} /></Link>
+          <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.2)' }}>Showing  of {displayServices.length} services</p>
         </motion.div>
       </Section>
 

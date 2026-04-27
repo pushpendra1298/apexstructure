@@ -336,48 +336,7 @@ function VideoHeroSection({ onNavigate }) {
   )
 }
 
-/* ── FLOATING PARTICLES CANVAS ── */
-function ParticleCanvas() {
-  const canvasRef = useRef(null)
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    let W = canvas.width = window.innerWidth
-    let H = canvas.height = window.innerHeight
-    let id
-    const N = 60
-    const pts = Array.from({ length: N }, () => ({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.2 + 0.4, opacity: Math.random() * 0.5 + 0.15,
-    }))
-    function draw() {
-      ctx.clearRect(0, 0, W, H)
-      for (const p of pts) {
-        p.x += p.vx; p.y += p.vy
-        if (p.x < 0) p.x = W; else if (p.x > W) p.x = 0
-        if (p.y < 0) p.y = H; else if (p.y > H) p.y = 0
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(249,115,22,${p.opacity})`; ctx.fill()
-      }
-      for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
-        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y
-        const d = Math.sqrt(dx * dx + dy * dy)
-        if (d < 140) {
-          ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y)
-          ctx.strokeStyle = `rgba(249,115,22,${0.06 * (1 - d / 140)})`; ctx.lineWidth = 0.8; ctx.stroke()
-        }
-      }
-      id = requestAnimationFrame(draw)
-    }
-    draw()
-    const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight }
-    window.addEventListener('resize', onResize)
-    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', onResize) }
-  }, [])
-  return <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0, opacity: 0.7 }} />
-}
+
 
 /* ── CLIENT MARQUEE ── */
 function ClientMarquee() {
@@ -454,10 +413,7 @@ export default function HomePage() {
         <VideoHeroSection onNavigate={navigate} />
 
         <section style={{ position: 'relative', overflow: 'hidden', background: 'linear-gradient(180deg,#020810 0%,#030c18 60%,#020810 100%)' }}>
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-            <div style={{ position: 'absolute', left: 0, right: 0, height: 1, background: 'linear-gradient(90deg,transparent,rgba(249,115,22,0.15),transparent)', animation: 'scanline 8s linear infinite' }} />
-          </div>
-          <ParticleCanvas />
+
 
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '60px 24px 40px', width: '100%', position: 'relative', zIndex: 2 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
@@ -486,7 +442,7 @@ export default function HomePage() {
                     ))}
                   </div>
                 </div>
-                <div style={{ position: 'absolute', top: 66, left: 16, zIndex: 10 }}>
+                <div style={{ position: 'absolute', top: 58, left: 16, zIndex: 10 }}>
                   <AnimatePresence mode="wait">
                     <motion.span key={slide} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                       style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', borderRadius: 100, padding: '4px 12px', fontSize: 10, fontWeight: 800, color: '#fff', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'inline-block' }}>
@@ -494,7 +450,7 @@ export default function HomePage() {
                     </motion.span>
                   </AnimatePresence>
                 </div>
-                <div style={{ height: 320, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: 390, position: 'relative', overflow: 'hidden' }}>
                   <AnimatePresence mode="wait">
                     <motion.div key={slide} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.5, ease: 'easeInOut' }} style={{ position: 'absolute', inset: 0 }}>
                       <img src={irttSlides[slide].image} alt={irttSlides[slide].title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.55)' }} />
