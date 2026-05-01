@@ -257,7 +257,7 @@ export default function HomePage() {
                 <div style={{ height: 390, position: 'relative', overflow: 'hidden' }}>
                   <AnimatePresence mode="wait">
                     <motion.div key={slide} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.5, ease: 'easeInOut' }} style={{ position: 'absolute', inset: 0 }}>
-                      <img src={irttSlides[slide].image} alt={irttSlides[slide].title} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.55)' }} />
+                      <img src={irttSlides[slide].image} alt={irttSlides[slide].title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.55)' }} />
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top,rgba(2,8,16,0.95) 0%,transparent 55%)' }} />
                       <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
                         <h4 style={{ fontSize: 16, fontWeight: 800, color: '#fff', lineHeight: 1.3, marginBottom: 6 }}>{irttSlides[slide].title}</h4>

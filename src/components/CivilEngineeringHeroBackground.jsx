@@ -27,7 +27,7 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     renderer.setClearAlpha(0)
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.physicallyCorrectLights = true
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFShadowMap
     renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -47,7 +47,7 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     sunLight.castShadow = true
     Object.assign(sunLight.shadow, { radius: 4, bias: -0.0001 })
     Object.assign(sunLight.shadow.camera, { left: -50, right: 50, top: 50, bottom: -50 })
-    sunLight.shadow.mapSize.set(4096, 4096)
+    sunLight.shadow.mapSize.set(1024, 1024)
     scene.add(sunLight)
 
     const addDir = (c, i, x, y, z) => { const l = new THREE.DirectionalLight(c, i); l.position.set(x, y, z); scene.add(l) }
@@ -89,16 +89,18 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     const colPos = [[-4, -4], [4, -4], [-4, 4], [4, 4], [0, -4], [0, 4], [-4, 0], [4, 0]]
     const floors = 6
 
+    const floorGeo = new THREE.BoxGeometry(9, 0.4, 9)
+    const glassGeo = new THREE.BoxGeometry(8.5, 2.5, 0.15)
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0x4a90e2, transparent: true, opacity: 0.22, roughness: 0.02, metalness: 0.2,
+      transmission: 0.9, thickness: 0.8, envMapIntensity: 1.6, clearcoat: 1, clearcoatRoughness: 0.06,
+    })
+
     for (let i = 0; i < floors; i++) {
-      addShadowMesh(new THREE.BoxGeometry(9, 0.4, 9), conc, [0, 0.8 + i * 3, 0])
+      addShadowMesh(floorGeo, conc, [0, 0.8 + i * 3, 0])
       colPos.forEach(([x, z]) => addShadowMesh(colGeo, conc, [x, 2 + i * 3, z]))
 
       if (i > 0) {
-        const glassGeo = new THREE.BoxGeometry(8.5, 2.5, 0.15)
-        const glassMat = new THREE.MeshPhysicalMaterial({
-          color: 0x4a90e2, transparent: true, opacity: 0.22, roughness: 0.02, metalness: 0.2,
-          transmission: 0.9, thickness: 0.8, envMapIntensity: 1.6, clearcoat: 1, clearcoatRoughness: 0.06,
-        })
         const y = 1.9 + i * 3
           ;[[0, y, 4.5, 0, 0, 0], [0, y, -4.5, 0, 0, 0], [4.5, y, 0, 0, PI / 2, 0], [-4.5, y, 0, 0, PI / 2, 0]].forEach(([px, py, pz, rx, ry, rz]) => {
             const g = new THREE.Mesh(glassGeo, glassMat)
