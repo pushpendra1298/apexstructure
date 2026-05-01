@@ -14,6 +14,9 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     const mount = mountRef.current
     if (!mount) return
 
+    // Skip Three.js initialization on mobile for performance
+    if (window.innerWidth < 768) return
+
     const scene = new THREE.Scene()
     scene.fog = new THREE.Fog(0x020810, 70, 260)
 
@@ -83,7 +86,7 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     addShadowMesh(new THREE.BoxGeometry(10, 0.8, 10), conc, [0, 0.4, 0])
 
     const colGeo = new THREE.BoxGeometry(0.5, 2.6, 0.5)
-    const colPos = [[-4,-4],[4,-4],[-4,4],[4,4],[0,-4],[0,4],[-4,0],[4,0]]
+    const colPos = [[-4, -4], [4, -4], [-4, 4], [4, 4], [0, -4], [0, 4], [-4, 0], [4, 0]]
     const floors = 6
 
     for (let i = 0; i < floors; i++) {
@@ -97,12 +100,12 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
           transmission: 0.9, thickness: 0.8, envMapIntensity: 1.6, clearcoat: 1, clearcoatRoughness: 0.06,
         })
         const y = 1.9 + i * 3
-        ;[[0,y,4.5,0,0,0],[0,y,-4.5,0,0,0],[4.5,y,0,0,PI/2,0],[-4.5,y,0,0,PI/2,0]].forEach(([px,py,pz,rx,ry,rz]) => {
-          const g = new THREE.Mesh(glassGeo, glassMat)
-          g.position.set(px, py, pz)
-          g.rotation.set(rx, ry, rz)
-          bldg.add(g)
-        })
+          ;[[0, y, 4.5, 0, 0, 0], [0, y, -4.5, 0, 0, 0], [4.5, y, 0, 0, PI / 2, 0], [-4.5, y, 0, 0, PI / 2, 0]].forEach(([px, py, pz, rx, ry, rz]) => {
+            const g = new THREE.Mesh(glassGeo, glassMat)
+            g.position.set(px, py, pz)
+            g.rotation.set(rx, ry, rz)
+            bldg.add(g)
+          })
       }
     }
 
@@ -203,7 +206,7 @@ export default function CivilEngineeringHeroBackground({ className = '', style }
     // Particles
     const pCount = 90, pPos = new Float32Array(pCount * 3)
     for (let i = 0; i < pCount * 3; i += 3) {
-      pPos[i] = (rand() - 0.5) * 90; pPos[i+1] = rand() * 26; pPos[i+2] = (rand() - 0.5) * 90
+      pPos[i] = (rand() - 0.5) * 90; pPos[i + 1] = rand() * 26; pPos[i + 2] = (rand() - 0.5) * 90
     }
     const pGeo = new THREE.BufferGeometry()
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3))

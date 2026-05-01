@@ -8,7 +8,7 @@ const socialLinks = [
   { Icon: Facebook, href: 'https://facebook.com/YOUR_PAGE', label: 'Facebook', color: '#3b82f6' },
   { Icon: MessageCircle, href: 'https://wa.me/917970147690', label: 'WhatsApp', color: '#25D366' },
   { Icon: Linkedin, href: 'https://linkedin.com/company/YOUR_PAGE', label: 'LinkedIn', color: '#0ea5e9' },
-  { Icon: Instagram, href: 'https://instagram.com/YOUR_HANDLE', label: 'Instagram', color: '#ec4899' },
+  { Icon: Instagram, href: 'https://www.instagram.com/apex_ascda?igsh=MW92bWRrNmhmNXB4', label: 'Instagram', color: '#ec4899' },
 ]
 
 const quickLinks = [

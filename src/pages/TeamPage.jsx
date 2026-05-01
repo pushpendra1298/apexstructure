@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion'
 import Footer from '../Footer'
 
@@ -8,7 +7,7 @@ const glassCard = { background: 'rgba(255,255,255,0.03)', border: '1px solid rgb
 const team = [
   { name: 'Shailendra Pratap Singh Bhadoriya', role: 'Associate Architect', experience: '16+ Years Experience', image: './sudhanshu11.webp' },
   { name: 'Shubhanshu Mandlik', role: 'Associate Architect', experience: '15+ Years Experience', image: './shubhanshu.webp' },
-  { name: 'prashansha sharma', role: 'ARCHITECT', experience: '11+ Years Experience', image: './prashansha.jp' },
+  { name: 'Prashansha sharma', role: 'ARCHITECT', experience: '11+ Years Experience', image: './prashansha.jp' },
   { name: 'Dr.Kamal sharma (PHD in civil eng.)', role: 'Senior Structure Engineer', experience: '11+ Years Experience', image: './kamal.jpg' },
   { name: 'Raghvendra Prajapati', role: 'Digital Marketing Expert', image: './raghvendra.jpg' },
   { name: 'Priya Prajapati', role: 'HR', image: './priya.jpg' },
@@ -17,8 +16,8 @@ const team = [
   { name: 'Kuldeep Singh', role: 'Steel fabrication Engineer', image: './kudeep.webp' },
   { name: 'Nawab Pal', role: 'Senior Draftsman', experience: '8+ Years Experience', image: './nawab1.jpg' },
   { name: 'Arman Khan', role: 'Draftsman', image: './arman.jpeg' },
-  { name: 'Amar', role: 'Site Supervisor', image: './amar.jpeg' },
-  { name: 'Neeraj singh', role: 'Site Engineer', image: './neeraj.jpg' },
+  { name: 'Amar', role: 'Site Engineer', image: './amar.jpeg' },
+  { name: 'Neeraj singh', role: 'Site Supervisor', image: './neeraj.jpg' },
 
 ]
 

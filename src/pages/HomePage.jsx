@@ -101,7 +101,7 @@ const gradText = { background: 'linear-gradient(90deg, #fb923c, #fbbf24)', Webki
 function VideoHeroSection({ onNavigate }) {
   return (
     <section style={{ position: 'relative', minHeight: 'unset', paddingTop: 'calc(36px + clamp(52px, 8vw, 64px))', overflow: 'hidden', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', background: 'linear-gradient(180deg, #020810 0%, #030c18 60%, #020810 100%)' }}>
-      <CivilEngineeringHeroBackground style={{ zIndex: 0, opacity: 0.88 }} />
+      <CivilEngineeringHeroBackground className="hidden md:block" style={{ zIndex: 0, opacity: 0.88 }} />
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(255,255,255,0.06) 0%, transparent 60%)' }} />
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse 80% 70% at 50% 50%, transparent 45%, rgba(0,0,0,0.28) 100%)' }} />
       <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', opacity: 0.05, mixBlendMode: 'overlay', backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 2px, transparent 5px)' }} />
